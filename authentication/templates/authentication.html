@@ -13,22 +13,39 @@
 
 	<title>Регистрация</title>
 </head>
-<body class="login-body">
+<body class="auth-body">
     {% if not form.is_valid %}
 		<div>
-			<form class="box" method="post">
+			<form class="auth-form" method="post">
 				{% csrf_token %}
 				<h1 class="">Регистрация</h1>
-				<input type="text" name="username" maxlength="100" required id="id_username" class="txtb mb-3" placeholder="Придумайте никнейм">
-				{{form.errors.username}}
+				<input type="text" name="username" maxlength="100" required id="id_username" placeholder="Придумайте никнейм">
+				{% if form.errors.username %}
+					<ul class="error-list">
+						{{form.errors.username}}
+					</ul>
+				{% endif %}
 				<input type="text" name="email" maxlength="100" required id="id_email" placeholder="Ваша электронная почта">
-				{{form.errors.email}}
-				<input type="password" name="password1" maxlength="100" required id="id_password1" class="txtb mb-3" placeholder="Придумайте пароль">
-				{{form.errors.password1}}
-				<input type="password" name="password2" maxlength="100" required id="id_password2" class="txtb mb-3" placeholder="Повторите пароль">
-				{{form.errors.password2}}
+				{% if form.errors.email %}
+					<ul class="error-list">
+						{{form.errors.email}}
+					</ul>
+				{% endif %}
+				<input type="password" name="password1" maxlength="100" required id="id_password1" placeholder="Придумайте пароль">
+				{% if form.errors.password1 %}
+					<ul class="error-list">
+						{{form.errors.password1}}
+					</ul>
+				{% endif %}
+				<input type="password" name="password2" maxlength="100" required id="id_password2" placeholder="Повторите пароль">
+				{% if form.errors.password2 %}
+					<ul class="error-list">
+						{{form.errors.password2}}
+					</ul>
+				{% endif %}
 				<input type="submit" name="login" value="Зарегистрироваться">
 				<a href="{% url 'login' %}">Уже есть аккаунт?</a>
+				<a href="{% url 'home' %}">Вернуться на главную</a>
 			</form>
 		</div>
     {% endif %}

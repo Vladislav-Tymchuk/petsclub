@@ -12,19 +12,20 @@
     <link rel="stylesheet" type="text/css" href="{% static 'base.css' %}">
 	<title>Вход в аккаунт</title>
 </head>
-<body class="login-body">
-	<form class="box" method="post">
+<body class="auth-body">
+	<form class="auth-form" method="post">
 		{% csrf_token %}
 		<h1>Вход в аккаунт</h1>
 		<input type="text" name="username" autofocus autocapitalize="none" autocomplete="username" maxlength="150" required id="id_username" placeholder="Ваш никнейм">
 		<input type="password" name="password" autocomplete="current-password" required id="id_password" placeholder="Ваш пароль">
 		{% if form.errors %}
-		    <ul>
+		    <ul class="error-list">
 		    	<li>Имя пользователя или пароль неверны</li>
 		    </ul>
 		{% endif %}
-		<a href="{% url 'authentication' %}">Еще нет аккаунта?</a>
 		<input type="submit" name="login" value="Войти">
+		<a href="{% url 'authentication' %}">Еще нет аккаунта?</a>
+		<a href="{% url 'home' %}">Вернуться на главную</a>
 	</form>	
 </body>
 </html>
