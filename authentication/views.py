@@ -1,24 +1,21 @@
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import AuthenticationForm
-from django.contrib.auth.models import Group, User
 from django.shortcuts import redirect, render
-from .forms import UserRegistrationForm
+
+from .models import CustomUser
+from .forms import CustomUserCreationForm
 from django.contrib import messages
 
 
 def authenticationView(request):
 
     if request.method == 'POST':
-        form = UserRegistrationForm(request.POST)
+        form = CustomUserCreationForm(request.POST)
         if form.is_valid():
             form.save()
-            username = form.cleaned_data.get('username')
-            signupUser = User.objects.get(username=username)
-            userGroup = Group.objects.get(name='User')
-            userGroup.user_set.add(signupUser)
             return redirect('login')
     else:
-        form = UserRegistrationForm()
+        form = CustomUserCreationForm()
 
     return render(request, 'authentication.html', {'form': form})
 
@@ -40,6 +37,10 @@ def loginView(request):
         form = AuthenticationForm()
 
     return render(request, 'login.html', {'form': form})
+
+def editView(request):
+    
+    return render(request, 'edit.html')
 
 def logoutView(request):
 

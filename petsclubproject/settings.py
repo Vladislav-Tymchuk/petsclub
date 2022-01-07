@@ -39,8 +39,10 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'mainPets',
-    'authentication',
+    'authentication.apps.AuthenticationConfig',
 ]
+
+AUTH_USER_MODEL = 'authentication.CustomUser'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -79,7 +81,7 @@ WSGI_APPLICATION = 'petsclubproject.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'pets_db',
+        'NAME': 'petsclub_db',
         'USER': 'postgres',
         'PASSWORD': 'VladosOnProgrammingLikeItachi',
         'HOST': '127.0.0.1',
