@@ -2,6 +2,8 @@ from django.db import models
 from django.contrib.auth.models import User
 from datetime import datetime
 
+from django.http import request
+
 from authentication.models import CustomUser
 
 class Banner(models.Model):
@@ -26,10 +28,9 @@ class Pet(models.Model):
     petName = models.CharField(max_length=50)
     petOwner = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     petBirthday = models.DateField()
-    petPhoto = models.ImageField(upload_to='pet-images')
+    petPhoto = models.ImageField(upload_to='pet-images', blank=True, null=True)
     petBio = models.TextField(max_length=511)
 
-      
     def petAge(self):
         today = datetime.today()
         age = today.year - self.petBirthday.year - ((today.month, today.day) < (self.petBirthday.month, self.petBirthday.day))

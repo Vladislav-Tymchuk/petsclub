@@ -1,5 +1,6 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
+from django.db.models import fields
 from .models import CustomUser
 
 class CustomUserCreationForm(UserCreationForm):
@@ -10,7 +11,7 @@ class CustomUserCreationForm(UserCreationForm):
 
     class Meta(UserCreationForm):
         model = CustomUser
-        fields = ('username', 'email', 'password1', 'password2')
+        fields = ['username', 'email', 'password1', 'password2']
 
     def clean_password2(self):
         cd = self.cleaned_data
@@ -28,3 +29,13 @@ class CustomUserCreationForm(UserCreationForm):
         if CustomUser.objects.filter(username=self.cleaned_data['username']).exists():
             raise forms.ValidationError('Данный пользователь уже существует')
         return self.cleaned_data['username']
+
+class CustomUserUpdateForm(forms.ModelForm):
+    username = forms.CharField(max_length=17, required=True)
+    email = forms.EmailField(max_length=250, required=True)
+    first_name = forms.CharField(max_length=50, required=False)
+    last_name = forms.CharField(max_length=50, required=False)
+
+    class Meta:
+        model = CustomUser
+        fields = ['username', 'email', 'first_name', 'last_name']

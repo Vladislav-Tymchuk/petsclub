@@ -16,8 +16,11 @@
 	<form class="auth-form" method="post">
 		{% csrf_token %}
 		<h1>Вход в аккаунт</h1>
-		<input type="text" name="username" autofocus autocapitalize="none" autocomplete="username" maxlength="150" required id="id_username" placeholder="Ваш никнейм">
-		<input type="password" name="password" autocomplete="current-password" required id="id_password" placeholder="Ваш пароль">
+		<label for="id_username">Ваше имя пользователя:</label>
+		<input type="text" name="username" autofocus autocapitalize="none" autocomplete="username" maxlength="150" required id="id_username">
+		
+		<label for="id_password">Ваш пароль:</label>
+		<input type="password" name="password" autocomplete="current-password" required id="id_password">
 		{% if form.errors %}
 		    <ul class="error-list">
 		    	<li>Имя пользователя или пароль неверны</li>

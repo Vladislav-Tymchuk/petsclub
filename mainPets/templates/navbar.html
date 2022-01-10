@@ -13,7 +13,7 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
             {% if request.user.is_authenticated %}
-              <a href="{% url 'logout' %}"><i class="cart-icon material-icons">logout</i></a>
+              
             {% else %}
               <a href="{% url 'authentication' %}" style="text-decoration: none; font-weight: bold; color: white">ВОЙТИ <i class="cart-icon material-icons">login</i></a>
             {% endif %}

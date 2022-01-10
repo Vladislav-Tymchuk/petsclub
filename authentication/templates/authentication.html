@@ -18,31 +18,40 @@
 		<div>
 			<form class="auth-form" method="post">
 				{% csrf_token %}
-				<h1 class="">Регистрация</h1>
-				<input type="text" name="username" maxlength="100" required id="id_username" placeholder="Придумайте никнейм">
+				<h1>Регистрация</h1>
+
+				<label for="id_username">Ваше имя пользователя:</label>
+				<input type="text" name="username" maxlength="100" required id="id_username">
 				{% if form.errors.username %}
 					<ul class="error-list">
 						{{form.errors.username}}
 					</ul>
 				{% endif %}
-				<input type="text" name="email" maxlength="100" required id="id_email" placeholder="Ваша электронная почта">
+
+				<label for="id_email">Ваша электронная почта:</label>
+				<input type="text" name="email" maxlength="100" required id="id_email">
 				{% if form.errors.email %}
 					<ul class="error-list">
 						{{form.errors.email}}
 					</ul>
 				{% endif %}
-				<input type="password" name="password1" maxlength="100" required id="id_password1" placeholder="Придумайте пароль">
+
+				<label for="id_password1">Введите пароль:</label>
+				<input type="password" name="password1" maxlength="100" required id="id_password1">
 				{% if form.errors.password1 %}
 					<ul class="error-list">
 						{{form.errors.password1}}
 					</ul>
 				{% endif %}
-				<input type="password" name="password2" maxlength="100" required id="id_password2" placeholder="Повторите пароль">
+
+				<label for="id_password2">Повторите пароль:</label>
+				<input type="password" name="password2" maxlength="100" required id="id_password2">
 				{% if form.errors.password2 %}
 					<ul class="error-list">
 						{{form.errors.password2}}
 					</ul>
 				{% endif %}
+				
 				<input type="submit" name="login" value="Зарегистрироваться">
 				<a href="{% url 'login' %}">Уже есть аккаунт?</a>
 				<a href="{% url 'home' %}">Вернуться на главную</a>

@@ -12,8 +12,8 @@
 
 .auth-form {
     background: #D1C4E9;
-    width: 400px;
-	padding: 40px;
+    width: 450px;
+	padding: 45px;
 	position: absolute;
 	top: 50%;
 	left: 50%;
@@ -39,6 +39,24 @@
 	outline: none;
 	transition: 0.25s;
 
+}
+
+.auth-form textarea {
+	border: 2px solid #FF9800;
+    border-radius: 24px;
+	background: none;
+	display: block;
+	margin: 20px auto;
+	text-align: center;
+	padding: 14px 10px;
+	width: 350px;
+	outline: none;
+	transition: 0.25s;
+}
+
+.auth-form textarea:focus {
+	width: 350px;
+	border-color: #512DA8;
 }
 
 .auth-form a {

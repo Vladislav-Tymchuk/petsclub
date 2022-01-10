@@ -45,30 +45,36 @@
                         <hr style="color: #BDBDBD;">
                     </div>
                     <div class="row">
-                        <h2 style="color: #FFFFFF;">Контактные данные: <span style="color: #FF9800;">{{person.first_name}} {{person.last_name}}</span></h2>
-                        <h2 style="color: #FFFFFF;">Зарегистрирован с: <span style="color: #FF9800;">{{person.date_joined | date:"d.m.Y"}}</span></h2>
+                        <h2 style="color: #FFFFFF;">Контактные данные. <span style="color: #FF9800;">
+                            {% if person.first_name and person.last_name %}
+                                {{person.first_name}} {{person.last_name}}
+                            {% else %} Пока нет информации
+                            {% endif %}
+                        </span></h2>
+                        <h2 style="color: #FFFFFF;">Зарегистрирован с <span style="color: #FF9800;">{{person.date_joined | date:"d.m.Y"}}</span></h2>
                         <hr style="color: #BDBDBD;">
                     </div>
-                    <a class="btn btn-outline-light mb-1" href="{% url 'edit' %}"><i class="cart-icon material-icons">mode_edit</i> Редактировать профиль</a>
+                    <a class="btn btn-outline-light mb-1" href="{% url 'edit' person.id %}"><i class="cart-icon material-icons">mode_edit</i> Редактировать профиль</a>
+                    <a class="btn btn-outline-light mb-1" href="{% url 'add-pet' %}"><i class="cart-icon material-icons">mode_edit</i> Добавить анкету питомца</a>
                 </div>
                 {% if pets %}
                     {% for pet in pets %}
                         <div class="mt-3 mb-3 col-12 col-md-12 col-lg-12 col-sm-12" style="background: #212121; border-radius: 24px;">
                             <div class="row">
-                                <h1 style="color: #FFFFFF;"><i class="cart-icon material-icons">favorite</i> Мой питомец <span style="color: #FF9800;">{{pet.petName}}</span></h1>
+                                <h1 style="color: #FFFFFF;"><i class="cart-icon material-icons">favorite</i> Мой питомец. <span style="color: #FF9800;">{{pet.petName}}</span></h1>
                                     <hr style="color: #BDBDBD;">
                                     <div class="row">
-                                        <h2 style="color: #FFFFFF;">Информация: <span style="color: #FF9800;">{{pet.pet}}, {{pet.smartAge}}</span></h2>
+                                        <h2 style="color: #FFFFFF;">Информация. <span style="color: #FF9800;">{{pet.pet}}, {{pet.smartAge}}</span></h2>
                                         <hr style="color: #BDBDBD;">
                                     </div>
                                 <div class="row">
-                                    <h3 style="color: #FFFFFF;">Факты о питомце: <span style="color: #FF9800;">{{pet.petBio}}</span></h3>
+                                    <h3 style="color: #FFFFFF;">Факты о питомце. <span style="color: #FF9800;">{{pet.petBio}}</span></h3>
                                 </div>
                                 <div>
                                     <img src="{{pet.petPhoto.url}}" class="d-block" width="250" height="150"></img>
                                 </div>
                             </div>
-                            <a class="btn btn-outline-light mb-1"><i class="cart-icon material-icons">mode_edit</i> Редактировать информацию</a>
+                            <a class="btn btn-outline-light mb-1" href="{% url 'edit-pet' pet.id %}"><i class="cart-icon material-icons">mode_edit</i> Редактировать информацию</a>
                         </div>
                     {% endfor %}
                 {% else %}
