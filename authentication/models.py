@@ -27,6 +27,10 @@ class CustomUser(AbstractUser):
                 img.thumbnail(new_img)
                 img.save(self.avatar.path)
 
+    def fullName(self):
+
+        return self.first_name + ' ' + self.last_name
+
 
 
     

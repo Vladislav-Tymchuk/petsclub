@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %} PET CLUB - социальная сеть для владельцев кошек и собак! {% endblock %}
+
+{% block content %}
+
+    <div>
+        <div class="container">
+            {% if person.id == request.user.id %}
+            <h2>Так выглядит Ваш аккаунт для других пользователей</h2>
+            {% endif %}
+            <div class="row mx-auto justify-content-around">
+                <div class="mt-3 col-12 col-sm-12 col-md-12 col-lg-12" style="background: #212121; border-radius: 24px;">
+                    <div class="row">
+                        <h1 style="color: #FFFFFF;"><i class="cart-icon material-icons">account_circle</i> Аккаунт <span style="color: #FF9800;">{{person.username}}</span></h1>
+                        {% if person.avatar %}
+                            <img src="{{person.avatar.url}}" class="d-block" width="250" height="150">
+                        {% else %}
+                        {% endif %}
+                        <hr style="color: #BDBDBD;">
+                    </div>
+                    <div class="row">
+                        <h2 style="color: #FFFFFF;">Контактные данные. <span style="color: #FF9800;">
+                            {% if person.first_name or person.last_name %}
+                                {{person.fullName}}
+                            {% else %} Пока нет информации
+                            {% endif %}
+                        </span></h2>
+                        <h2 style="color: #FFFFFF;">Зарегистрирован с <span style="color: #FF9800;">{{person.date_joined | date:"d.m.Y"}}</span></h2>
+                        <hr style="color: #BDBDBD;">
+                    </div>
+                </div>
+                {% if pets %}
+                    {% for pet in pets %}
+                        <div class="mt-3 mb-3 col-12 col-md-12 col-lg-12 col-sm-12" style="background: #212121; border-radius: 24px;">
+                            <div class="row mb-2">
+                                <h1 style="color: #FFFFFF;"><i class="cart-icon material-icons">favorite</i> Мой питомец <span style="color: #FF9800;">{{pet.petName}}</span></h1>
+                                    <hr style="color: #BDBDBD;">
+                                    <div class="row">
+                                        <h2 style="color: #FFFFFF;">Информация. <span style="color: #FF9800;">{{pet.pet}}, {{pet.smartAge}}</span></h2>
+                                        <hr style="color: #BDBDBD;">
+                                    </div>
+                                <div class="row">
+                                    <h3 style="color: #FFFFFF;">Факты о питомце. <span style="color: #FF9800;">{{pet.petBio}}</span></h3>
+                                </div>
+                                {% if pet.petPhoto %}
+                                    <div>
+                                        <img src="{{pet.petPhoto.url}}" class="d-block" width="250" height="150"></img>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

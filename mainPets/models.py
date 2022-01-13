@@ -52,6 +52,10 @@ class Pet(models.Model):
             result = str(age) + ' лет'
        
         return result
+
+    def fullName(self):
+
+        return (self.first_name, self.last_name)
         
     def __str__(self):
         

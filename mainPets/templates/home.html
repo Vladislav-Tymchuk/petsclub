@@ -32,12 +32,71 @@
     </main>
 
     {% if request.user.is_authenticated %}
+        <div>
+            <div class="container">
+                <div class="row mx-auto justify-content-around">
+                    <div class="mt-3 col-12 col-sm-12 col-md-12 col-lg-12" style="background: #212121; border-radius: 24px;">
+                        <div class="row">
+                            <h1 style="color: #FFFFFF;"><i class="cart-icon material-icons">account_circle</i> Мой аккаунт <span style="color: #FF9800;">{{person.username}}</span></h1>
+                            {% if person.avatar %}
+                                <img src="{{person.avatar.url}}" class="d-block" width="250" height="150">
+                            {% else %}
+                            {% endif %}
+                            <hr style="color: #BDBDBD;">
+                        </div>
+                        <div class="row">
+                            <h2 style="color: #FFFFFF;">Контактные данные. <span style="color: #FF9800;">
+                                {% if person.first_name or person.last_name %}
+                                    {{person.fullName}}
+                                {% else %} Пока нет информации
+                                {% endif %}
+                            </span></h2>
+                            <h2 style="color: #FFFFFF;">Зарегистрирован с <span style="color: #FF9800;">{{person.date_joined | date:"d.m.Y"}}</span></h2>
+                            <hr style="color: #BDBDBD;">
+                        </div>
+                        <div class="mb-2">
+                            <a class="btn btn-outline-light mb-1" href="{% url 'edit' person.id %}"><i class="cart-icon material-icons">mode_edit</i> Редактировать профиль</a>
+                            <a class="btn btn-outline-light mb-1" href="{% url 'add-pet' %}"><i class="cart-icon material-icons">mode_edit</i> Добавить анкету питомца</a>
+                        </div>
+                    </div>
+                    {% if pets %}
+                        {% for pet in pets %}
+                            <div class="mt-3 mb-3 col-12 col-md-12 col-lg-12 col-sm-12" style="background: #212121; border-radius: 24px;">
+                                <div class="row mb-2">
+                                    <h1 style="color: #FFFFFF;"><i class="cart-icon material-icons">favorite</i> Мой питомец <span style="color: #FF9800;">{{pet.petName}}</span></h1>
+                                        <hr style="color: #BDBDBD;">
+                                        <div class="row">
+                                            <h2 style="color: #FFFFFF;">Информация. <span style="color: #FF9800;">{{pet.pet}}, {{pet.smartAge}}</span></h2>
+                                            <hr style="color: #BDBDBD;">
+                                        </div>
+                                    <div class="row">
+                                        <h3 style="color: #FFFFFF;">Факты о питомце. <span style="color: #FF9800;">{{pet.petBio}}</span></h3>
+                                    </div>
+                                    {% if pet.petPhoto %}
+                                        <div>
+                                            <img src="{{pet.petPhoto.url}}" class="d-block" width="250" height="150"></img>
+                                        </div>
+                                    {% endif %}
+                                </div>
+                                <div class="mb-2">
+                                    <a class="btn btn-outline-light mb-1" href="{% url 'edit-pet' pet.id %}"><i class="cart-icon material-icons">mode_edit</i> Редактировать информацию</a>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                    {% endif %} 
+                </div>
+            
+            </div>
+        
+        </div>
+    {% else %}
     <div>
         <div class="container">
             <div class="row mx-auto justify-content-around">
                 <div class="mt-3 mb-3 col-12 col-sm-12 col-md-12 col-lg-12" style="background: #212121; border-radius: 24px;">
                     <div class="row">
-                        <h1 style="color: #FFFFFF;"><i class="cart-icon material-icons">account_circle</i> Мой аккаунт <span style="color: #FF9800;">{{person.username}}</span></h1>
+                        <h1 style="color: #FFFFFF;"><i class="cart-icon material-icons">account_circle</i> Мой аккаунт <span style="color: #FF9800;">пока нет информации</span></h1>
                         {% if person.avatar %}
                             <img src="{{person.avatar.url}}" class="d-block" width="250" height="150">
                         {% else %}
@@ -51,41 +110,15 @@
                             {% else %} Пока нет информации
                             {% endif %}
                         </span></h2>
-                        <h2 style="color: #FFFFFF;">Зарегистрирован с <span style="color: #FF9800;">{{person.date_joined | date:"d.m.Y"}}</span></h2>
+                        <h2 style="color: #FFFFFF;">Зарегистрирован с <span style="color: #FF9800;">пока нет информации</span></h2>
                         <hr style="color: #BDBDBD;">
                     </div>
-                    <a class="btn btn-outline-light mb-1" href="{% url 'edit' person.id %}"><i class="cart-icon material-icons">mode_edit</i> Редактировать профиль</a>
-                    <a class="btn btn-outline-light mb-1" href="{% url 'add-pet' %}"><i class="cart-icon material-icons">mode_edit</i> Добавить анкету питомца</a>
+                    <div style="color: #FF9800;">
+                        <p><a href="{% url 'authentication' %}" style="text-decoration: none;">Зарегистрируйтесь</a> или <a href="{% url 'login' %}" style="text-decoration: none;">войдите в аккаунт</a>, чтобы воспользоваться всеми возможностями Pet Club</p>
+                    </div>
                 </div>
-                {% if pets %}
-                    {% for pet in pets %}
-                        <div class="mt-3 mb-3 col-12 col-md-12 col-lg-12 col-sm-12" style="background: #212121; border-radius: 24px;">
-                            <div class="row">
-                                <h1 style="color: #FFFFFF;"><i class="cart-icon material-icons">favorite</i> Мой питомец. <span style="color: #FF9800;">{{pet.petName}}</span></h1>
-                                    <hr style="color: #BDBDBD;">
-                                    <div class="row">
-                                        <h2 style="color: #FFFFFF;">Информация. <span style="color: #FF9800;">{{pet.pet}}, {{pet.smartAge}}</span></h2>
-                                        <hr style="color: #BDBDBD;">
-                                    </div>
-                                <div class="row">
-                                    <h3 style="color: #FFFFFF;">Факты о питомце. <span style="color: #FF9800;">{{pet.petBio}}</span></h3>
-                                </div>
-                                <div>
-                                    <img src="{{pet.petPhoto.url}}" class="d-block" width="250" height="150"></img>
-                                </div>
-                            </div>
-                            <a class="btn btn-outline-light mb-1" href="{% url 'edit-pet' pet.id %}"><i class="cart-icon material-icons">mode_edit</i> Редактировать информацию</a>
-                        </div>
-                    {% endfor %}
-                {% else %}
-                {% endif %} 
-            </div>
-        
-            {% else %}
-            {% endif %}
-        </div>
     
-    </div>
+    {% endif %}
 
     
 {% endblock %}

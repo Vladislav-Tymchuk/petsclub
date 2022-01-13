@@ -66,3 +66,20 @@ def editPet(request, pk):
     
 
     return render(request, 'edit-pet.html', {'PetForm': PetForm, 'pet': pet})
+
+def checkProfile(request, username):
+
+    context = {
+
+    }
+    try:
+
+        person = get_object_or_404(CustomUser, username = username)
+        pets = Pet.objects.filter(petOwner = person.id)
+        context.update({'person': person})
+        context.update({'pets': pets})
+    except Exception:
+        pass
+    
+
+    return render(request, 'profile.html', context=context)
