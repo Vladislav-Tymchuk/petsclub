@@ -88,7 +88,7 @@ WSGI_APPLICATION = 'petsclubproject.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'petsclub_db',
+        'NAME': 'petsclubproject_db',
         'USER': 'postgres',
         'PASSWORD': 'VladosOnProgrammingLikeItachi',
         'HOST': '127.0.0.1',

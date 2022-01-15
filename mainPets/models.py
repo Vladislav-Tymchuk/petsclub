@@ -1,8 +1,7 @@
+import string
 from django.db import models
-from django.contrib.auth.models import User
 from datetime import datetime
-
-from django.http import request
+from django.urls import reverse
 
 from authentication.models import CustomUser
 
@@ -31,6 +30,7 @@ class Pet(models.Model):
     petPhoto = models.ImageField(upload_to='pet-images', blank=True, null=True)
     petBio = models.TextField(max_length=511)
 
+
     def petAge(self):
         today = datetime.today()
         age = today.year - self.petBirthday.year - ((today.month, today.day) < (self.petBirthday.month, self.petBirthday.day))
@@ -53,10 +53,30 @@ class Pet(models.Model):
        
         return result
 
-    def fullName(self):
+    def name(self):
 
-        return (self.first_name, self.last_name)
+        return (self.pet + ' ' + self.petName)
         
     def __str__(self):
         
         return (self.pet + ' ' + self.petName + ' ' + str(self.petAge()))
+
+
+class Post(models.Model):
+
+    postAuthor = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    postTitle = models.CharField(max_length = 127)
+    postText = models.TextField(max_length = 4095)
+    postPet = models.ForeignKey(Pet, on_delete=models.CASCADE, blank=True, null=True)
+    postPhoto = models.ImageField(upload_to='posts-images', blank=True, null=True)
+    postSlug = models.SlugField(max_length = 70, unique=True)
+    postTimePublished = models.TimeField(auto_now_add=True)
+    postDatePublished = models.DateField(auto_now_add=True)
+
+
+    def __str__(self):
+
+        return self.postTitle
+
+    def get_absolute_url(self):
+        return reverse('post', kwargs={'postSlug': self.post_slug})

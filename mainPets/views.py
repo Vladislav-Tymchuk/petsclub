@@ -2,7 +2,7 @@ from authentication.models import CustomUser
 from django.shortcuts import get_object_or_404, redirect, render
 
 from .forms import PetAddForm, PetEditForm
-from .models import Banner, Pet
+from .models import Banner, Pet, Post
 
 
 def home(request):
@@ -23,6 +23,9 @@ def home(request):
         context['pets'] = pets
     except Exception:
         pass
+
+    posts = Post.objects.filter(postAuthor = request.user.id)
+    context.update({'posts': posts})
     
     return render(request, 'home.html', context=context)
 
@@ -30,7 +33,7 @@ def home(request):
 def addPetView(request):
     # обработать хозяина питомца
     if request.method == 'POST':
-        form = PetAddForm(request.POST, request.FILES)
+        form = PetAddForm(request.POST, files=(request.FILES or None))
         if form.is_valid():
             
             fPet = PetAddForm(request.POST, request.FILES)

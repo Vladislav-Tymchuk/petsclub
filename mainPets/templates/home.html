@@ -119,6 +119,24 @@
                 </div>
     
     {% endif %}
-
-    
+    <div class="col-6 col-md-6 col-lg-6 col-sm-12 mt-5">
+    <div class="bg-light mb-3" style="max-width: 540px;">
+    {% for post in posts %}
+    <div class="row g-0 mb-5">
+        <div class="col-md-4">
+              <a href=""><img src="{{post.postPhoto.url}}" class="img-fluid rounded-start" alt=""></a>
+        </div>
+        <div class="col-md-8">
+            <div class="card-body">
+                <h2 class="featurette-heading">{{post.postTitle}} <span style="color: #FF9800;"><i class="cart-icon material-icons">person_outline</i>{{post.postAuthor}}</span></h2>
+                <a href="" style="text-decoration: none;" class="title"><p class="card-text title">{{post.postText}}</p></a>
+                <p class="card-text mt-2"><small class="text-muted">{{post.postDatePublished}} {{post.postTimePublished}}</small></p>
+                <p><span style="color: #FF9800;"><i class="cart-icon material-icons">pets</i>{{post.postPet.name}}</span></p>
+            </div>
+        </div>
+    </div>
+    <hr class="hr__line">
+    {% endfor %}
+    </div>
+    </div>
 {% endblock %}

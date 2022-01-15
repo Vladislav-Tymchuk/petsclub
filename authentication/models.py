@@ -1,7 +1,6 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.shortcuts import redirect
-from PIL import Image
 
 class CustomUser(AbstractUser):
     avatar = models.FileField(upload_to='avatars', blank=True)
@@ -15,17 +14,6 @@ class CustomUser(AbstractUser):
 
     def get_absolute_url(self):
         return redirect('home')
-
-    def save(self, *args, **kwargs):
-        super().save()
-        if self.avatar:
-
-            img = Image.open(self.avatar.path)
-
-            if img.height > 100 or img.width > 100:
-                new_img = (100, 100)
-                img.thumbnail(new_img)
-                img.save(self.avatar.path)
 
     def fullName(self):
 

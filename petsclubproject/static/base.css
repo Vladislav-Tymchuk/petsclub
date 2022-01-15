@@ -64,6 +64,10 @@
     color: #757575;
 }
 
+.auth-form a:hover {
+	color: #212121;
+}
+
 .auth-form input:focus, .auth-form section:focus {
 	width: 250px;
 	border-color: #512DA8;
@@ -92,4 +96,24 @@
 
 body {
     background: #D1C4E9;
+}
+
+.inputToSearch {
+	border: 2px solid #512DA8;
+	border-radius: 10px;
+}
+
+.inputToSearch:focus {
+	border: 3px solid #FF9800;
+}
+
+.btnToSearch {
+	border: 2px solid #FF9800;
+	border-radius: 10px;
+	color: #FFFFFF;
+}
+
+.btnToSearch:hover {
+	border: 3px solid #512DA8;
+	color: #FF9800;
 }

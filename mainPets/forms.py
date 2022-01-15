@@ -1,3 +1,4 @@
+from dataclasses import fields
 from django import forms
 from django.forms.models import ModelForm
 from django.http import request
@@ -16,12 +17,13 @@ class PetAddForm(ModelForm):
     ]
     pet = forms.ChoiceField(choices=petChoices)
     petName = forms.CharField(max_length=50)
+    petPhoto = forms.ImageField()
     petBirthday = forms.DateField()
     petBio = forms.CharField(max_length=511)
 
     class Meta:
         model = Pet
-        fields = ['pet', 'petName', 'petBirthday', 'petBio']
+        fields = ['pet', 'petName', 'petBirthday', 'petPhoto', 'petBio']
 
 
 class PetEditForm(ModelForm):
