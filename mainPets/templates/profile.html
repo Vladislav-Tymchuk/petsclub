@@ -7,9 +7,6 @@
 
     <div>
         <div class="container">
-            {% if person.id == request.user.id %}
-            <h2>Так выглядит Ваш аккаунт для других пользователей</h2>
-            {% endif %}
             <div class="row mx-auto justify-content-around">
                 <div class="mt-3 col-12 col-sm-12 col-md-12 col-lg-12" style="background: #212121; border-radius: 24px;">
                     <div class="row">
@@ -32,28 +29,51 @@
                     </div>
                 </div>
                 {% if pets %}
-                    {% for pet in pets %}
-                        <div class="mt-3 mb-3 col-12 col-md-12 col-lg-12 col-sm-12" style="background: #212121; border-radius: 24px;">
-                            <div class="row mb-2">
-                                <h1 style="color: #FFFFFF;"><i class="cart-icon material-icons">favorite</i> Питомец <span style="color: #FF9800;">{{pet.petName}}</span></h1>
-                                    <hr style="color: #BDBDBD;">
-                                    <div class="row">
-                                        <h2 style="color: #FFFFFF;">Информация. <span style="color: #FF9800;">{{pet.pet}}, {{pet.smartAge}}</span></h2>
-                                        <hr style="color: #BDBDBD;">
-                                    </div>
-                                <div class="row">
-                                    <h3 style="color: #FFFFFF;">Факты о питомце. <span style="color: #FF9800;">{{pet.petBio}}</span></h3>
-                                </div>
-                                {% if pet.petPhoto %}
-                                    <div>
-                                        <img src="{{pet.petPhoto.url}}" class="d-block" width="250" height="150"></img>
-                                    </div>
-                                {% endif %}
+                {% for pet in pets %}
+                <div class="mt-3 mb-3 col-12 col-md-12 col-lg-12 col-sm-12" style="background: #212121; border-radius: 24px;">
+                    <div class="row mb-2">
+                        <h1 style="color: #FFFFFF;"><i class="cart-icon material-icons">favorite</i> Мой питомец 
+                            <a href="{{pet.petProfile}}" style="text-decoration: none;"><span style="color: #FF9800;">{{pet.petName}}</span></a></h1>
+                            <hr style="color: #BDBDBD;">
+                            <div class="row">
+                                <h2 style="color: #FFFFFF;">Информация. <span style="color: #FF9800;">{{pet.pet}}, {{pet.smartAge}}</span></h2>
+                                <hr style="color: #BDBDBD;">
                             </div>
+                        <div class="row">
+                            <h3 style="color: #FFFFFF;">Факты о питомце. <span style="color: #FF9800;">{{pet.smallInfo}} ...</span>
+                                <a href="{{pet.petProfile}}" style="text-decoration: none;"><span style="color: #673AB7;"> смотреть профиль питомца</span></a></h3>
                         </div>
-                    {% endfor %}
+                        {% if pet.petPhoto %}
+                            <div>
+                                <img src="{{pet.petPhoto.url}}" class="d-block" width="250" height="150"></img>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            {% endfor %}
                 {% endif %}
                 </div>
+                {% for post in posts %}
+                <div class="mt-3 mb-3 col-12 col-md-12 col-lg-12 col-sm-12" style="background-color: #D1C4E9; border-left: 2px #FF9800 solid;">
+                    <div class="mb-3">
+                        <div class="row g-0 mb-5">
+                            <div class="col-md-2">
+                                <a href=""><img src="{{post.postPhoto.url}}" class="img-fluid rounded-start" alt=""></a><br>
+                                <p><a href="{{post.petProfile}}" style="text-decoration: none;"><span style="color: #673AB7;"><i class="cart-icon material-icons">pets</i>{{post.postPet.name}}</span></a></p>
+                            </div>
+                            <div class="col-md-8">
+                                <div class="card-body">
+                                    <h2 class="featurette-heading">{{post.postTitle}}</h2>
+                                    <p class="card-text" style="color: #212121">{{post.textToPreview}} ... <a style="color: #512DA8;" href="{{post.get_url }}">читать полностью</a></p><br>
+                                    <p><a style="text-decoration: none;" href="{{post.authorProfile}}"><span style="color: #673AB7;"><i class="cart-icon material-icons">person_outline</i>{{post.postAuthor}}</span></a>,
+                                        <small style="color: #757575;" class="text-muted">{{post.postDatePublished}} {{post.postTimePublished}}</small> </p>
+                                </div>
+                            </div>
+                        </div>
+                        <hr style="color: #757575;"">
+                    </div>
+                </div>
+            {% endfor %}
             </div>
         </div>
     </div>

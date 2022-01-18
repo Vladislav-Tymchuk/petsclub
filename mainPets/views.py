@@ -1,3 +1,4 @@
+from poplib import POP3_SSL_PORT
 from authentication.models import CustomUser
 from django.shortcuts import get_object_or_404, redirect, render
 
@@ -75,14 +76,40 @@ def checkProfile(request, username):
     context = {
 
     }
-    try:
 
-        person = get_object_or_404(CustomUser, username = username)
-        pets = Pet.objects.filter(petOwner = person.id)
-        context.update({'person': person})
-        context.update({'pets': pets})
-    except Exception:
-        pass
+    person = get_object_or_404(CustomUser, username = username)
+    pets = Pet.objects.filter(petOwner = person.id)
+    context.update({'person': person})
+    context.update({'pets': pets})
+
+    posts = Post.objects.filter(postAuthor = person.id)
+    context.update({'posts': posts})
+
+    if person.username == request.user.username:
+        return redirect('home')
     
 
     return render(request, 'profile.html', context=context)
+
+
+def petProfile(request, petId, petName):
+
+    context = {}
+
+    pet = Pet.objects.get(id = petId)
+    context.update({'pet': pet})
+
+    posts = Post.objects.filter(postPet = petId)
+    context.update({'posts': posts})
+
+    return render(request, 'pet-profile.html', context)
+
+
+def fullPost(request, username, postSlug):
+
+    context = {}
+
+    post = Post.objects.get(postSlug = postSlug)
+
+    context.update({'post': post})
+    return render(request, 'full-post.html', context)

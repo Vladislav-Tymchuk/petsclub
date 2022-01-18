@@ -63,14 +63,16 @@
                         {% for pet in pets %}
                             <div class="mt-3 mb-3 col-12 col-md-12 col-lg-12 col-sm-12" style="background: #212121; border-radius: 24px;">
                                 <div class="row mb-2">
-                                    <h1 style="color: #FFFFFF;"><i class="cart-icon material-icons">favorite</i> Мой питомец <span style="color: #FF9800;">{{pet.petName}}</span></h1>
+                                    <h1 style="color: #FFFFFF;"><i class="cart-icon material-icons">favorite</i> Мой питомец 
+                                        <a href="{{pet.petProfile}}" style="text-decoration: none;"><span style="color: #FF9800;">{{pet.petName}}</span></a></h1>
                                         <hr style="color: #BDBDBD;">
                                         <div class="row">
                                             <h2 style="color: #FFFFFF;">Информация. <span style="color: #FF9800;">{{pet.pet}}, {{pet.smartAge}}</span></h2>
                                             <hr style="color: #BDBDBD;">
                                         </div>
                                     <div class="row">
-                                        <h3 style="color: #FFFFFF;">Факты о питомце. <span style="color: #FF9800;">{{pet.petBio}}</span></h3>
+                                        <h3 style="color: #FFFFFF;">Факты о питомце. <span style="color: #FF9800;">{{pet.smallInfo}} ...</span>
+                                            <a href="{{pet.petProfile}}" style="text-decoration: none;"><span style="color: #673AB7;"> смотреть профиль питомца</span></a></h3>
                                     </div>
                                     {% if pet.petPhoto %}
                                         <div>
@@ -78,17 +80,37 @@
                                         </div>
                                     {% endif %}
                                 </div>
-                                <div class="mb-2">
-                                    <a class="btn btn-outline-light mb-1" href="{% url 'edit-pet' pet.id %}"><i class="cart-icon material-icons">mode_edit</i> Редактировать информацию</a>
-                                </div>
+                                {% if request.user.id == pet.petOwner %}
+                                    <div class="mb-2">
+                                        <a class="btn btn-outline-light mb-1" href="{% url 'edit-pet' pet.id %}"><i class="cart-icon material-icons">mode_edit</i> Редактировать информацию</a>
+                                    </div>
+                                {% endif %}
                             </div>
                         {% endfor %}
-                    {% else %}
                     {% endif %} 
+                    {% for post in posts %}
+                        <div class="mt-3 mb-3 col-12 col-md-12 col-lg-12 col-sm-12" style="background-color: #D1C4E9; border-left: 2px #FF9800 solid;">
+                            <div class="mb-3">
+                                <div class="row g-0 mb-5">
+                                    <div class="col-md-2">
+                                        <a href=""><img src="{{post.postPhoto.url}}" class="img-fluid rounded-start" alt=""></a><br>
+                                        <p><a href="{{post.petProfile}}" style="text-decoration: none;"><span style="color: #673AB7;"><i class="cart-icon material-icons">pets</i>{{post.postPet.name}}</span></a></p>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <div class="card-body">
+                                            <h2 class="featurette-heading">{{post.postTitle}}</h2>
+                                            <p class="card-text" style="color: #212121">{{post.textToPreview}} ... <a style="color: #512DA8;" href="{{post.get_url }}">читать полностью</a></p><br>
+                                            <p><a style="text-decoration: none;" href="{{post.authorProfile}}"><span style="color: #673AB7;"><i class="cart-icon material-icons">person_outline</i>{{post.postAuthor}}</span></a>,
+                                                <small style="color: #757575;" class="text-muted">{{post.postDatePublished}} {{post.postTimePublished}}</small> </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr style="color: #757575;"">
+                            </div>
+                        </div>
+                    {% endfor %}
                 </div>
-            
             </div>
-        
         </div>
     {% else %}
     <div>
@@ -119,24 +141,5 @@
                 </div>
     
     {% endif %}
-    <div class="col-6 col-md-6 col-lg-6 col-sm-12 mt-5">
-    <div class="bg-light mb-3" style="max-width: 540px;">
-    {% for post in posts %}
-    <div class="row g-0 mb-5">
-        <div class="col-md-4">
-              <a href=""><img src="{{post.postPhoto.url}}" class="img-fluid rounded-start" alt=""></a>
-        </div>
-        <div class="col-md-8">
-            <div class="card-body">
-                <h2 class="featurette-heading">{{post.postTitle}} <span style="color: #FF9800;"><i class="cart-icon material-icons">person_outline</i>{{post.postAuthor}}</span></h2>
-                <a href="" style="text-decoration: none;" class="title"><p class="card-text title">{{post.postText}}</p></a>
-                <p class="card-text mt-2"><small class="text-muted">{{post.postDatePublished}} {{post.postTimePublished}}</small></p>
-                <p><span style="color: #FF9800;"><i class="cart-icon material-icons">pets</i>{{post.postPet.name}}</span></p>
-            </div>
-        </div>
-    </div>
-    <hr class="hr__line">
-    {% endfor %}
-    </div>
-    </div>
+
 {% endblock %}

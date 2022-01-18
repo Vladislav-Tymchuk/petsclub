@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %} {{post.postTitle}} {% endblock %}
+
+{% block content %}
+
+    <div class="mb-5">
+        <div class="container">
+            <div class="row g-5">
+                <div class="col-md-9">
+                    <article class="blog-post mt-5 position-sticky">
+                        <h2 class="blog-post-title title">{{post.postTitle}}</h2>
+                        <p class="blog-post-meta">{{post.DatePublished}}</p>
+                        <img src="{{post.postPhoto.url}}" width="350" height="250" class="mt-3">
+                        <p style = "white-space:pre-line" class="mt-5">{{post.postText}}</p>
+                        <p><small style="color: #757575;" class="text-muted">{{post.postDatePublished}} {{post.postTimePublished}}</small></p>
+                        <hr style="color: #757575;">
+                        <p><a style="text-decoration: none" href="{{post.authorProfile}}"><span style="color: #673AB7;"><i class="cart-icon material-icons">person_outline</i>{{post.postAuthor}}</span></a></p>
+                        <p><a href="{{post.petProfile}}" style="text-decoration: none;"><span style="color: #673AB7;"><i class="cart-icon material-icons">pets</i>{{post.postPet.name}}</span></a></p>
+                    </article>
+                <div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

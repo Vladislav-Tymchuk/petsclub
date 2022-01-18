@@ -31,6 +31,18 @@ class Pet(models.Model):
     petBio = models.TextField(max_length=511)
 
 
+    def smallInfo(self):
+
+        return self.petBio[:50]
+
+    def petProfile(self):
+
+        pet = Pet.objects.get(id = self.id)
+
+
+        return reverse('pet-profile', kwargs={'petId': pet.id, "petName": pet.petName})
+
+
     def petAge(self):
         today = datetime.today()
         age = today.year - self.petBirthday.year - ((today.month, today.day) < (self.petBirthday.month, self.petBirthday.day))
@@ -73,10 +85,24 @@ class Post(models.Model):
     postTimePublished = models.TimeField(auto_now_add=True)
     postDatePublished = models.DateField(auto_now_add=True)
 
+    def textToPreview(self):
+
+        return self.postText[:70]
 
     def __str__(self):
 
         return self.postTitle
 
-    def get_absolute_url(self):
-        return reverse('post', kwargs={'postSlug': self.post_slug})
+    def get_url(self):
+
+        return reverse('full-post', kwargs={'username': self.postAuthor, 'postSlug': self.postSlug})
+
+    def authorProfile(self):
+
+        return reverse('profile', kwargs={'username': self.postAuthor})
+
+    def petProfile(self):
+
+        pet = Pet.objects.get(id = self.postPet.id)
+
+        return reverse('pet-profile', kwargs={'petId': pet.id, "petName": pet.petName})

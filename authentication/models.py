@@ -1,6 +1,7 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.shortcuts import redirect
+from django.urls import reverse
 
 class CustomUser(AbstractUser):
     avatar = models.FileField(upload_to='avatars', blank=True)
@@ -11,9 +12,6 @@ class CustomUser(AbstractUser):
 
     def __str__(self):
         return self.username
-
-    def get_absolute_url(self):
-        return redirect('home')
 
     def fullName(self):
 
