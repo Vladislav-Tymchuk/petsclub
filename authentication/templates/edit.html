@@ -17,9 +17,10 @@
 <body class="auth-body">
     {% if not form.is_valid %}
 		<div>
-			<form class="auth-form" method="post">
+			<form enctype="multipart/form-data" class="auth-form" method="post">
 				{% csrf_token %}
 				<h1 class="">Редактирование профиля</h1>
+
                 <label for="id_username">Ваше имя пользователя:</label>
 				<input type="text" name="username" maxlength="17" required id="id_username" value="{{request.user.username}}">
 				{% if form.errors.username %}
@@ -27,6 +28,7 @@
 						{{form.errors.username}}
 					</ul>
 				{% endif %}
+
                 <label for="id_username">Ваша электронная почта:</label>
 				<input type="text" name="email" maxlength="250" required id="id_email" value="{{request.user.email}}">
 				{% if form.errors.email %}
@@ -34,6 +36,7 @@
 						{{form.errors.email}}
 					</ul>
 				{% endif %}
+
                 <label for="id_username">Ваше имя:</label>
 				<input type="text" name="first_name" maxlength="50" required id="id_first_name" value="{{request.user.first_name}}">
 				{% if form.errors.first_name %}
@@ -41,6 +44,7 @@
 						{{form.errors.first_name}}
 					</ul>
 				{% endif %}
+
                 <label for="id_username">Ваша фамилия:</label>
                 <input type="text" name="last_name" maxlength="50" required id="id_last_name" value="{{request.user.last_name}}">
 				{% if form.errors.last_name %}
@@ -48,6 +52,15 @@
 						{{form.errors.last_name}}
 					</ul>
 				{% endif %}
+
+				<label for="id_avatar">Поменять фото профиля:</label>
+				<input type="file" name="avatar" accept="image/*" id="id_avatar">
+				{% if form.errors.avatar %}
+					<ul class="error-list">
+						{{form.errors.avatar}}
+					</ul>
+				{% endif %}
+
 				<input type="submit" name="login" value="Сохранить изменения">
 				<a href="{% url 'change-password' %}">Сменить пароль</a>
 				<a href="{% url 'logout' %}">Выйти из аккаунта</a><br>

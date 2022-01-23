@@ -30,7 +30,8 @@ class Pet(models.Model):
     petPhoto = models.ImageField(upload_to='pet-images', blank=True, null=True)
     petBio = models.TextField(max_length=511)
 
-
+    def petEdit(self):
+        return reverse('edit-pet', kwargs={'username': self.petOwner, 'pk': self.id})
     def smallInfo(self):
 
         return self.petBio[:50]
@@ -96,6 +97,14 @@ class Post(models.Model):
     def get_url(self):
 
         return reverse('full-post', kwargs={'username': self.postAuthor, 'postSlug': self.postSlug})
+
+    def get_url_edit(self):
+
+        return reverse('edit-post', kwargs={'username': self.postAuthor, 'postSlug': self.postSlug})
+
+    def get_url_delete(self):
+
+        return reverse('delete-post', kwargs={'username': self.postAuthor, 'postSlug': self.postSlug})
 
     def authorProfile(self):
 

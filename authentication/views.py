@@ -15,8 +15,11 @@ from django.contrib.messages.views import SuccessMessageMixin
 def authenticationView(request):
 
     if request.method == 'POST':
-        form = CustomUserCreationForm(request.POST)
+        form = CustomUserCreationForm(request.POST, request.FILES)
         if form.is_valid():
+            form.save(commit=False)
+            form.first_name = ""
+            form.last_name = ""
             form.save()
             return redirect('login')
     else:
@@ -46,7 +49,7 @@ def loginView(request):
 @login_required
 def editView(request, pk):
     if request.method == 'POST':
-        customUserForm = CustomUserUpdateForm(request.POST, instance=request.user)
+        customUserForm = CustomUserUpdateForm(request.POST, request.FILES, instance=request.user)
 
         if customUserForm.is_valid():
             customUserForm.save()

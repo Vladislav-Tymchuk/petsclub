@@ -1,8 +1,13 @@
 from poplib import POP3_SSL_PORT
+
+from django.urls import reverse
 from authentication.models import CustomUser
 from django.shortcuts import get_object_or_404, redirect, render
+from datetime import datetime
+from datetime import date
+from transliterate import slugify
 
-from .forms import PetAddForm, PetEditForm
+from .forms import PetAddForm, PetEditForm, PostEditForm, PostForm
 from .models import Banner, Pet, Post
 
 
@@ -32,35 +37,26 @@ def home(request):
 
 
 def addPetView(request):
-    # обработать хозяина питомца
+
     if request.method == 'POST':
-        form = PetAddForm(request.POST, files=(request.FILES or None))
+        form = PetAddForm(request.POST, request.FILES)       
         if form.is_valid():
-            
-            fPet = PetAddForm(request.POST, request.FILES)
-            pet = form.cleaned_data['pet']
-            petName = request.POST.get('petName')
-            petOwner = CustomUser.objects.get(username = request.user.username)
-            petBirthday = request.POST.get('petBirthday')
-            petPhoto = request.POST.get('petPhoto')
-            petBio = request.POST.get('petBio')
-            fPet = Pet.objects.create(pet = pet, petName = petName, petOwner = petOwner, petBirthday = petBirthday, petPhoto = petPhoto,
-                petBio = petBio)
-            fPet.save()
-            
+            ancet = form.save(commit=False)
+            ancet.petOwner = request.user
+            ancet.save()
             return redirect('home')
     else:
         form = PetAddForm()
 
     return render(request, 'add-pet.html', {'form': form})
 
-def editPet(request, pk):
+def editPet(request, username, pk):
 
     pet = Pet.objects.get(id = pk)
     
     if request.method == 'POST':
         
-        PetForm = PetEditForm(request.POST, instance = pet)
+        PetForm = PetEditForm(request.POST, request.FILES, instance = pet)
 
         if PetForm.is_valid():
             PetForm.save()
@@ -112,4 +108,78 @@ def fullPost(request, username, postSlug):
     post = Post.objects.get(postSlug = postSlug)
 
     context.update({'post': post})
+
     return render(request, 'full-post.html', context)
+
+
+def createPost(request, username):
+
+    context = {}
+    pets = Pet.objects.filter(petOwner = request.user)
+    context.update({'pets': pets})
+
+    if request.method == "POST":
+        form = PostForm(request.POST, request.FILES)
+        if form.is_valid():
+            post = form.save(commit=False)
+            post.postAuthor = request.user
+
+            now = datetime.now()  
+            currentTime = now.strftime("%H:%M:%S")
+            post.postTimePublished = currentTime
+
+            today = date.today()
+            post.postDatePublished = today.strftime('Y-m-d')
+
+            text = post.postTitle
+            slug = slugify(text)
+            post.postSlug = slug
+
+            post.save()
+            return redirect('home')
+    else:
+        form = PostForm()
+
+
+    return render(request, 'create-post.html', context)
+
+
+def editPost(request, username, postSlug):
+
+    context = {}
+
+    post = Post.objects.get(postSlug = postSlug)
+    context.update({'post': post})
+
+    pets = Pet.objects.filter(petOwner = request.user)
+    context.update({'pets': pets})
+
+    if request.method == 'POST':
+
+        form = PostEditForm(request.POST, request.FILES)
+
+        if form.is_valid():
+
+            newPost = form.save(commit=False)
+            post.postTitle = newPost.postTitle
+            post.postText = newPost.postText
+            
+            if newPost.postPhoto:
+               post.postPhoto = newPost.postPhoto
+
+            post.save() 
+
+            return redirect('full-post', username = post.postAuthor, postSlug = post.postSlug)
+    else:
+        form = PostEditForm()
+    
+    
+    return render(request, 'edit-post.html', context)
+
+
+def deletePost(request, username, postSlug):
+
+    post = Post.objects.get(postSlug = postSlug)
+    post.delete()
+
+    return redirect('home')

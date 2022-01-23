@@ -16,7 +16,7 @@
 <body class="auth-body">
     {% if not form.is_valid %}
 		<div>
-			<form class="auth-form" method="post">
+			<form enctype="multipart/form-data" class="auth-form" method="post">
 				{% csrf_token %}
 				<h1>Регистрация</h1>
 
@@ -35,6 +35,14 @@
 						{{form.errors.email}}
 					</ul>
 				{% endif %}
+
+				<label for="id_avatar">Выбрать фото профиля:</label>
+                    <input type="file" name="avatar" accept="image/*" id="id_avatar">
+                    {% if form.errors.avatar %}
+                        <ul class="error-list">
+                            {{form.errors.avatar}}
+                        </ul>
+                    {% endif %}
 
 				<label for="id_password1">Введите пароль:</label>
 				<input type="password" name="password1" maxlength="100" required id="id_password1">

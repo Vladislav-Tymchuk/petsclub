@@ -83,6 +83,14 @@
                         </ul>
                     {% endif %}
 
+                    <label for="id_petPhoto">Изменить фото:</label>
+                    <input type="file" name="petPhoto" accept="image/*" id="id_petPhoto">
+                    {% if form.errors.petPhoto %}
+                        <ul class="error-list">
+                            {{form.errors.petPhoto}}
+                        </ul>
+                    {% endif %}
+
                     <label for="id_petBio">Интересная информация про питомца:</label>
                     <textarea name="petBio" cols="40" rows="10" class="vLargeTextField" maxlength="511" required="" id="id_petBio">{{pet.petBio}}</textarea>
                     {% if form.errors.petBio %}

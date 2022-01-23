@@ -4,14 +4,10 @@ from django.db.models import fields
 from .models import CustomUser
 
 class CustomUserCreationForm(UserCreationForm):
-    username = forms.CharField(max_length=17, required=True)
-    email = forms.EmailField(max_length=250, help_text='например, aaaaa@gmail.com')
-    password1 = forms.CharField(widget=forms.PasswordInput)
-    password2 = forms.CharField(widget=forms.PasswordInput)
 
     class Meta(UserCreationForm):
         model = CustomUser
-        fields = ['username', 'email', 'password1', 'password2']
+        fields = ['username', 'email', 'avatar', 'password1', 'password2']
 
     def clean_password2(self):
         cd = self.cleaned_data
@@ -31,11 +27,7 @@ class CustomUserCreationForm(UserCreationForm):
         return self.cleaned_data['username']
 
 class CustomUserUpdateForm(forms.ModelForm):
-    username = forms.CharField(max_length=17, required=True)
-    email = forms.EmailField(max_length=250, required=True)
-    first_name = forms.CharField(max_length=50, required=False)
-    last_name = forms.CharField(max_length=50, required=False)
 
     class Meta:
         model = CustomUser
-        fields = ['username', 'email', 'first_name', 'last_name']
+        fields = ['username', 'email', 'avatar', 'first_name', 'last_name']

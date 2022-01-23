@@ -56,7 +56,8 @@
                         </div>
                         <div class="mb-2">
                             <a class="btn btn-outline-light mb-1" href="{% url 'edit' person.id %}"><i class="cart-icon material-icons">mode_edit</i> Редактировать профиль</a>
-                            <a class="btn btn-outline-light mb-1" href="{% url 'add-pet' %}"><i class="cart-icon material-icons">mode_edit</i> Добавить анкету питомца</a>
+                            <a class="btn btn-outline-light mb-1" href="{% url 'add-pet' %}"><i class="cart-icon material-icons">pets</i> Добавить анкету питомца</a>
+                            <a class="btn btn-outline-light mb-1" href="{% url 'create-post' request.user.username %}"><i class="cart-icon material-icons">add</i> Опубликовать новую запись</a>
                         </div>
                     </div>
                     {% if pets %}
@@ -80,11 +81,11 @@
                                         </div>
                                     {% endif %}
                                 </div>
-                                {% if request.user.id == pet.petOwner %}
+                                
                                     <div class="mb-2">
-                                        <a class="btn btn-outline-light mb-1" href="{% url 'edit-pet' pet.id %}"><i class="cart-icon material-icons">mode_edit</i> Редактировать информацию</a>
+                                        <a class="btn btn-outline-light mb-1" href="{{pet.petEdit}}"><i class="cart-icon material-icons">mode_edit</i> Редактировать информацию</a>
                                     </div>
-                                {% endif %}
+                                
                             </div>
                         {% endfor %}
                     {% endif %} 
@@ -93,9 +94,13 @@
                             <div class="mb-3">
                                 <div class="row g-0 mb-5">
                                     <div class="col-md-2">
-                                        <a href=""><img src="{{post.postPhoto.url}}" class="img-fluid rounded-start" alt=""></a><br>
-                                        <p><a href="{{post.petProfile}}" style="text-decoration: none;"><span style="color: #673AB7;"><i class="cart-icon material-icons">pets</i>{{post.postPet.name}}</span></a></p>
-                                    </div>
+                                        {% if post.postPhoto %}
+                                            <a href=""><img src="{{post.postPhoto.url}}" class="img-fluid rounded-start" alt=""></a><br>
+                                        {% endif %}
+                                        {% if post.postPet %}
+                                            <p><a href="{{post.petProfile}}" style="text-decoration: none;"><span style="color: #673AB7;"><i class="cart-icon material-icons">pets</i>{{post.postPet.name}}</span></a></p>
+                                        {% endif %}    
+                                        </div>
                                     <div class="col-md-8">
                                         <div class="card-body">
                                             <h2 class="featurette-heading">{{post.postTitle}}</h2>

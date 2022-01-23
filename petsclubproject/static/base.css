@@ -117,3 +117,93 @@ body {
 	border: 3px solid #512DA8;
 	color: #FF9800;
 }
+
+.post-body {
+    background-color: #673AB7;
+    margin: 0;
+    padding: 0;
+}
+
+.post-form {
+    background: #D1C4E9;
+    width: 1100px;
+	padding: 45px;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	text-align: center;
+	border-radius: 10px;
+}
+
+.post-form h1 {
+    color: #212121;
+    text-transform: uppercase;
+}
+
+.post-form input, .post-form select {
+    border: 2px solid #FF9800;
+    border-radius: 24px;
+	background: none;
+	display: block;
+	margin: 10px auto;
+	text-align: center;
+	padding: 14px 10px;
+	width: 200px;
+	outline: none;
+	transition: 0.25s;
+
+}
+
+.post-form textarea {
+	border: 2px solid #FF9800;
+    border-radius: 24px;
+	background: none;
+	display: block;
+	margin: 10px auto;
+	text-align: center;
+	padding: 14px 10px;
+	width: 700px;
+	outline: none;
+	transition: 0.25s;
+}
+
+.post-form textarea:focus {
+	width: 710px;
+	border-color: #512DA8;
+}
+
+.post-form a {
+    text-decoration: none;
+    color: #757575;
+}
+
+.post-form a:hover {
+	color: #212121;
+}
+
+.post-form input:focus, .post-form section:focus {
+	width: 250px;
+	border-color: #512DA8;
+}
+
+.post-form input[type = 'submit'] {
+	border: 0;
+	background: #FF9800;
+	display: block;
+	margin: 20px auto;
+	text-align: center;
+	border: 2px solid #212121;
+	padding: 14px 40px;
+	outline: none;
+	color: #212121;
+	border-radius: 24px;
+	transition: 0.25s;
+	cursor: pointer;
+    width: 250px;
+}
+
+.post-form input[type = 'submit']:hover {
+	background: #D1C4E9;
+    color: #212121;
+}

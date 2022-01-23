@@ -5,7 +5,7 @@ from django.http import request
 from django.shortcuts import get_object_or_404
 
 from authentication.models import CustomUser
-from .models import Pet
+from .models import Pet, Post
 
 class PetAddForm(ModelForm):
 
@@ -41,4 +41,18 @@ class PetEditForm(ModelForm):
 
     class Meta:
         model = Pet
-        fields = ['pet', 'petName', 'petBirthday', 'petBio']
+        fields = ['pet', 'petName', 'petBirthday', 'petPhoto', 'petBio']
+
+
+class PostForm(ModelForm):
+
+    class Meta:
+        model = Post
+        fields = ['postTitle', 'postText', 'postPet', 'postPhoto']
+
+
+class PostEditForm(ModelForm):
+
+    class Meta:
+        model = Post
+        fields = ['postTitle', 'postText', 'postPhoto'] 
