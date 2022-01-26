@@ -48,6 +48,8 @@ def loginView(request):
 
 @login_required
 def editView(request, pk):
+    if request.user.id != pk:
+        return redirect('home')
     if request.method == 'POST':
         customUserForm = CustomUserUpdateForm(request.POST, request.FILES, instance=request.user)
 

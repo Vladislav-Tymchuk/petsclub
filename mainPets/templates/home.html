@@ -5,86 +5,65 @@
 
 {% block content %}
 
-    <main>
-        <div>
-            <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
-                <div class="carousel-inner">
-                    <div class="carousel-item active">
-                        <img src="{{bannerFirst.bannerImage.url}}" class="d-block w-100 h-50" alt="{{bannerFirst.bannerDescription}}">
-                    </div>
-                    {% for banner in banners %}
-                        <div class="carousel-item">
-                            <img src="{{banner.bannerImage.url}}" class="d-block w-100" alt="banner.bannerDescription">
-                        </div>
-                    {% endfor %}
-                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
-                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                        <span class="visually-hidden">Предыдущий</span>
-                    </button>
-                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
-                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                        <span class="visually-hidden">Следующий</span>
-                    </button>
-                </div>
-            </div>
-        </div>
-        
-    </main>
-
     {% if request.user.is_authenticated %}
         <div>
             <div class="container">
                 <div class="row mx-auto justify-content-around">
-                    <div class="mt-3 col-12 col-sm-12 col-md-12 col-lg-12" style="background: #212121; border-radius: 24px;">
-                        <div class="row">
-                            <h1 style="color: #FFFFFF;"><i class="cart-icon material-icons">account_circle</i> Мой аккаунт <span style="color: #FF9800;">{{person.username}}</span></h1>
-                            {% if person.avatar %}
-                                <img src="{{person.avatar.url}}" class="d-block" width="250" height="150">
-                            {% else %}
-                            {% endif %}
-                            <hr style="color: #BDBDBD;">
-                        </div>
-                        <div class="row">
-                            <h2 style="color: #FFFFFF;">Контактные данные. <span style="color: #FF9800;">
-                                {% if person.first_name or person.last_name %}
-                                    {{person.fullName}}
-                                {% else %} Пока нет информации
-                                {% endif %}
-                            </span></h2>
-                            <h2 style="color: #FFFFFF;">Зарегистрирован с <span style="color: #FF9800;">{{person.date_joined | date:"d.m.Y"}}</span></h2>
-                            <hr style="color: #BDBDBD;">
-                        </div>
-                        <div class="mb-2">
-                            <a class="btn btn-outline-light mb-1" href="{% url 'edit' person.id %}"><i class="cart-icon material-icons">mode_edit</i> Редактировать профиль</a>
-                            <a class="btn btn-outline-light mb-1" href="{% url 'add-pet' %}"><i class="cart-icon material-icons">pets</i> Добавить анкету питомца</a>
-                            <a class="btn btn-outline-light mb-1" href="{% url 'create-post' request.user.username %}"><i class="cart-icon material-icons">add</i> Опубликовать новую запись</a>
-                        </div>
+                    <div class="mt-3 col-12 col-sm-12 col-md-12 col-lg-12" style="background: #212121; border-radius: 24px">
+                       
+                            <div class="card p-3 profile">
+                                <div class="d-flex align-items-center">
+                                    {% if person.avatar %}
+                                        <div class="image"><img src="{{person.avatar.url}}" class="rounded" width="155"></div>
+                                    {% else %} 
+                                        <div class="image"><img src="{% static 'images/default-photo.jpeg' %}" class="rounded" width="155"></div>
+                                    {% endif %}
+                                    <div class="ml-3 w-100 ms-2">
+                                        {% if person.first_name or person.last_name %}
+                                            <h4 class="mb-0 mt-0"><span>{{person.fullName}}</span></h4><span>{{person.username}}</span>
+                                        {% else %} 
+                                            <h4 class="mb-0 mt-0">Пока нет информации</h4><span>{{person.username}}</span>
+                                        {% endif %}
+                                        <div class="p-2 mt-2 d-flex justify-content-between rounded stats col-7 div-stats">
+                                            <div class="d-flex flex-column col-4"> <span class="articles">Статьи</span> <span class="number1">{{postsCount}}</span></div>
+                                            <div class="d-flex flex-column col-4"> <span class="followers">Подписчики</span> <span class="number2">{{followersCount}}</span></div>
+                                            <div class="d-flex flex-column col-4"> <span class="rating">Питомцы</span> <span class="number3">{{petsCount}}</span></div>                                           
+                                        </div>
+                                        <div class="mt-2 profile-buttons">
+                                            <a class="btn btn-outline-light mb-1" href="{% url 'edit' person.id %}"><i class="cart-icon material-icons">mode_edit</i> Редактировать профиль</a>
+                                            <a class="btn btn-outline-light mb-1" href="{% url 'add-pet' %}"><i class="cart-icon material-icons">pets</i> Добавить питомца</a>
+                                            <a class="btn btn-outline-light mb-1" href="{% url 'create-post' request.user.username %}"><i class="cart-icon material-icons">add</i> Опубликовать запись</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                       
                     </div>
                     {% if pets %}
                         {% for pet in pets %}
                             <div class="mt-3 mb-3 col-12 col-md-12 col-lg-12 col-sm-12" style="background: #212121; border-radius: 24px;">
-                                <div class="row mb-2">
-                                    <h1 style="color: #FFFFFF;"><i class="cart-icon material-icons">favorite</i> Мой питомец 
-                                        <a href="{{pet.petProfile}}" style="text-decoration: none;"><span style="color: #FF9800;">{{pet.petName}}</span></a></h1>
-                                        <hr style="color: #BDBDBD;">
-                                        <div class="row">
-                                            <h2 style="color: #FFFFFF;">Информация. <span style="color: #FF9800;">{{pet.pet}}, {{pet.smartAge}}</span></h2>
-                                            <hr style="color: #BDBDBD;">
+                                <div class="card p-3 profile">
+                                    <div class="d-flex align-items-center">
+                                        {% if pet.petPhoto %}
+                                            <div class="image"><img src="{{pet.petPhoto.url}}" class="rounded" width="155"></div>
+                                        {% else %}
+                                            <div class="image"><img class="rounded" 
+                                                src="{% static 'images/default-pet.jpeg' %}"
+                                                width="155"></div>
+                                        {% endif %}
+                                        <div class="ml-3 w-100 ms-2">
+                                            <h4 class="mb-0 mt-0 ms-2"><span>{{pet.petName}}</span></h4><span class="ms-2">{{pet.pet}}, {{pet.smartAge}}</span>
+
+                                            <div class="p-2 mt-2 d-flex justify-content-between rounded stats col-10 pet-profile">
+                                                <h3 style="color: #FFFFFF;"><span>{{pet.smallInfo}}...</span>
+                                                    <a href="{{pet.petProfile}}"><br><small class="" style="color: #673AB7;"> смотреть полный профиль питомца</small></a></h3>
+                                            </div>
+                                            <div class="mt-2 profile-buttons">
+                                                <a class="btn btn-outline-light mb-1" href="{{pet.petEdit}}"><i class="cart-icon material-icons">mode_edit</i> Редактировать информацию</a>
+                                            </div>
                                         </div>
-                                    <div class="row">
-                                        <h3 style="color: #FFFFFF;">Факты о питомце. <span style="color: #FF9800;">{{pet.smallInfo}} ...</span>
-                                            <a href="{{pet.petProfile}}" style="text-decoration: none;"><span style="color: #673AB7;"> смотреть профиль питомца</span></a></h3>
                                     </div>
-                                    {% if pet.petPhoto %}
-                                        <div>
-                                            <img src="{{pet.petPhoto.url}}" class="d-block" width="250" height="150"></img>
-                                        </div>
-                                    {% endif %}
                                 </div>
-                                
-                                    <div class="mb-2">
-                                        <a class="btn btn-outline-light mb-1" href="{{pet.petEdit}}"><i class="cart-icon material-icons">mode_edit</i> Редактировать информацию</a>
-                                    </div>
                                 
                             </div>
                         {% endfor %}
@@ -113,11 +92,37 @@
                                 <hr style="color: #757575;"">
                             </div>
                         </div>
+                        
                     {% endfor %}
                 </div>
             </div>
         </div>
     {% else %}
+    <main>
+        <div>
+            <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+                        <img src="{{bannerFirst.bannerImage.url}}" class="d-block w-100 h-50" alt="{{bannerFirst.bannerDescription}}">
+                    </div>
+                    {% for banner in banners %}
+                        <div class="carousel-item">
+                            <img src="{{banner.bannerImage.url}}" class="d-block w-100" alt="banner.bannerDescription">
+                        </div>
+                    {% endfor %}
+                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Предыдущий</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Следующий</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+    </main>
     <div>
         <div class="container">
             <div class="row mx-auto justify-content-around">

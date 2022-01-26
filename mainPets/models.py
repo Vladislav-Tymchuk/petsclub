@@ -1,4 +1,5 @@
 import string
+from tabnanny import verbose
 from django.db import models
 from datetime import datetime
 from django.urls import reverse
@@ -32,9 +33,10 @@ class Pet(models.Model):
 
     def petEdit(self):
         return reverse('edit-pet', kwargs={'username': self.petOwner, 'pk': self.id})
+
     def smallInfo(self):
 
-        return self.petBio[:50]
+        return self.petBio[:70]
 
     def petProfile(self):
 
@@ -115,3 +117,43 @@ class Post(models.Model):
         pet = Pet.objects.get(id = self.postPet.id)
 
         return reverse('pet-profile', kwargs={'petId': pet.id, "petName": pet.petName})
+
+    
+    class Meta:
+        ordering = ['-postDatePublished']
+
+
+class Comment(models.Model):
+
+    commentPost = models.ForeignKey(Post, on_delete=models.CASCADE)
+    commentAuthor = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    commentText = models.TextField(max_length=127)
+    commentTimePublished = models.TimeField(auto_now_add=True)
+    commentDatePublished = models.DateField(auto_now_add=True)
+
+    def __str__(self):
+
+        return self.commentText
+
+    
+    def getCommentAuthor(self):
+
+        return reverse('profile', args={'username': self.commentAuthor})
+
+    
+    class Meta:
+        ordering = ['-commentDatePublished']
+
+
+class Followers(models.Model):
+
+    followedPerson = models.ForeignKey(CustomUser, on_delete=models.DO_NOTHING, related_name="Пользователь")
+    followerPerson = models.ForeignKey(CustomUser, on_delete=models.DO_NOTHING, related_name="Подписавшийся")
+
+    class Meta:
+        verbose_name_plural = "Followers"
+
+    
+    def __str__(self):
+        id = str(self.id)
+        return id

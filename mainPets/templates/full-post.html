@@ -26,9 +26,61 @@
                         {% if post.postPet %}
                             <p><a href="{{post.petProfile}}" style="text-decoration: none;"><span style="color: #673AB7;"><i class="cart-icon material-icons">pets</i>{{post.postPet.name}}</span></a></p>
                         {% endif %}
+                        <hr>
                     </article>
                 <div>
             </div>
+            
+            {% if request.user.is_authenticated %}
+                <div class="comment-body mb-5">
+                    <form method="post" class="comment-form">
+                        {% csrf_token %}
+                        <label for="id_commentText">Оставьте свой комментарий:</label>
+                        <textarea type="text" cols="30" rows="5" name="commentText" maxlength="127" required="" id="id_commentText"></textarea>
+                        {% if form.errors.commentText %}
+                            <ul class="error-list">
+                                {{form.errors.commentText}}
+                            </ul>
+                        {% endif %}
+                        <input type="submit" value="Опубликовать" name="_save">
+                    </form>
+                </div>
+            {% else %}
+                <div class="comment-body mb-5">                  
+                    <label><a href="{% url 'authentication' %}">Зарегистрируйтесь</a> или
+                        <a href="{% url 'login' %}"> войдите в аккаунт</a>, чтобы оставлять комментарии</label>
+                </div>
+            {% endif %}
+            {% if comments %}
+                <div style="background-color: #512DA8; border: 3px solid #512DA8; border-radius: 6px;">
+                    {% for comment in comments %}
+                    <div class="card mb-1" style="background-color: #D1C4E9;">
+                        <div class="card-body">
+                            <div class="d-flex flex-start align-items-center">
+                                <img class="rounded-circle shadow-1-strong me-3" src="{{comment.commentAuthor.avatar.url}}"
+                                    alt="avatar" width="60" height="60"/>
+                                <div>
+                                {% if request.user == comment.commentAuthor %}
+                                <h6 class="fw-bold mb-1" style="color: #212121;">{{comment.commentAuthor}}
+                                    <a href="{% url 'delete-comment' comment.id %}"><i class="cart-icon material-icons">delete</i></a></h6>
+                                {% else %}
+                                <h6 class="fw-bold mb-1" style="color: #212121;">{{comment.commentAuthor}}</h6>
+                                {% endif %}
+                                
+                                <p class="text-muted small mb-0">
+                                    {{comment.commentTimePublished}} {{comment.commentDatePublished}}
+                                </p>
+                                </div>
+                            </div>
+            
+                            <p class="mt-3 mb-4 pb-2" style="color: #212121;">
+                                {{comment.commentText}}
+                            </p>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
         </div>
     </div>
 {% endblock %}

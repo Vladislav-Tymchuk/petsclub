@@ -1,3 +1,7 @@
+a {
+	text-decoration: none;
+}
+
 .error-list li {
     color: red;
     font-weight: bold;
@@ -206,4 +210,82 @@ body {
 .post-form input[type = 'submit']:hover {
 	background: #D1C4E9;
     color: #212121;
+}
+
+.comment-body {
+	background-color: #D1C4E9;
+	border-radius: 6px;
+    margin: 0;
+    padding: 0;
+}
+
+.comment-form {
+	width: 300px;
+	height: 200px;
+	padding-left: 10px;
+	padding-top: 10px;
+}
+
+.comment-form label {
+	padding-bottom: 5px;
+}
+
+.comment-form textarea {
+	width: 450px;
+	border-color: #512DA8;
+	background: none;
+}
+
+.comment-form textarea:focus {
+	width: 500px;
+	border-color: #FF9800;
+}
+
+.comment-form input[type = 'submit'] {
+	border: 0;
+	background: #FF9800;
+	display: block;
+	text-align: center;
+	border: 2px solid #212121;
+	padding: 14px 40px;
+	outline: none;
+	color: #212121;
+	border-radius: 24px;
+	transition: 0.25s;
+	cursor: pointer;
+    width: 200px;
+}
+
+.comment-form input[type = 'submit']:hover {
+	background: #D1C4E9;
+    color: #212121;
+}
+
+.profile {
+	background: none;
+}
+
+.profile span {
+	color: #FF9800;
+}
+
+.profile .div-stats {
+	background: #212121;
+	color: #FFFFFF;
+	border: 2px solid #512DA8;
+}
+
+.profile-buttons a {
+	border: 1px solid #512DA8;
+}
+
+.profile-buttons a:hover {
+	border: 2px solid #FF9800;
+	background: none;
+	color: #FFFFFF;
+}
+
+.pet-profile {
+	background: #212121;
+	color: #FFFFFF;
 }

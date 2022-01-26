@@ -11,5 +11,8 @@ urlpatterns = [
     path('<str:username>/create-post/', views.createPost, name='create-post'),
     path('<str:username>/edit-post/<slug:postSlug>', views.editPost, name='edit-post'),
     path('<str:username>/delete-post/<slug:postSlug>', views.deletePost, name='delete-post'),
+    path('comment/<int:pk>/delete/', views.deleteComment, name='delete-comment'),
+    path('<str:follower>/follow/<str:followed>', views.followPerson, name='follow-person'),
+    path('<str:follower>/unfollow/<str:followed>', views.unfollowPerson, name='unfollow-person'),
     path('authentication/', include('authentication.urls')),
 ]

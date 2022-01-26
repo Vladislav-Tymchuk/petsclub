@@ -1,4 +1,6 @@
 from poplib import POP3_SSL_PORT
+import re
+from django.http import HttpResponseRedirect
 
 from django.urls import reverse
 from authentication.models import CustomUser
@@ -7,8 +9,8 @@ from datetime import datetime
 from datetime import date
 from transliterate import slugify
 
-from .forms import PetAddForm, PetEditForm, PostEditForm, PostForm
-from .models import Banner, Pet, Post
+from .forms import CommentForm, PetAddForm, PetEditForm, PostEditForm, PostForm
+from .models import Banner, Comment, Followers, Pet, Post
 
 
 def home(request):
@@ -20,6 +22,7 @@ def home(request):
         'banners': banners,
         'person': '',
         'pets': '',
+        'followersCount': 0,
     }
     person = ''
     try:
@@ -27,11 +30,19 @@ def home(request):
         pets = Pet.objects.filter(petOwner = person.id)
         context['person'] = person
         context['pets'] = pets
+        context['petsCount'] = pets.count
     except Exception:
         pass
 
     posts = Post.objects.filter(postAuthor = request.user.id)
     context.update({'posts': posts})
+    context.update({'postsCount': posts.count})
+
+    try:
+        followers = Followers.objects.filter(followedPerson = request.user)
+        context['followersCount'] = followers.count
+    except:
+        pass
     
     return render(request, 'home.html', context=context)
 
@@ -53,6 +64,9 @@ def addPetView(request):
 def editPet(request, username, pk):
 
     pet = Pet.objects.get(id = pk)
+
+    if request.user != pet.petOwner:
+        return redirect('home')
     
     if request.method == 'POST':
         
@@ -70,22 +84,40 @@ def editPet(request, username, pk):
 def checkProfile(request, username):
 
     context = {
-
+        'followersCount': 0,
+        'marker': False, # True if request.user is a follower for profile page user
     }
 
     person = get_object_or_404(CustomUser, username = username)
-    pets = Pet.objects.filter(petOwner = person.id)
-    context.update({'person': person})
-    context.update({'pets': pets})
-
-    posts = Post.objects.filter(postAuthor = person.id)
-    context.update({'posts': posts})
 
     if person.username == request.user.username:
         return redirect('home')
+
+    try:
+        Followers.objects.get(followedPerson = person.id, followerPerson = request.user)
+        context['marker'] = True
+    except:
+        context['marker'] = False
+
+
+    pets = Pet.objects.filter(petOwner = person.id)
+    context.update({'person': person})
+    context.update({'pets': pets})
+    context.update({'petsCount': pets.count})
+
+    posts = Post.objects.filter(postAuthor = person.id)
+    context.update({'posts': posts})
+    context.update({'postsCount': posts.count})
+
+    try:
+        followers = Followers.objects.filter(followedPerson = person.id)
+        context['followersCount'] = followers.count
+    except:
+        pass
+
     
 
-    return render(request, 'profile.html', context=context)
+    return render(request, 'profile.html', context)
 
 
 def petProfile(request, petId, petName):
@@ -106,8 +138,36 @@ def fullPost(request, username, postSlug):
     context = {}
 
     post = Post.objects.get(postSlug = postSlug)
+    comments = ''
+    try:
+        comments = Comment.objects.filter(commentPost = post)
+    except:
+        pass
 
     context.update({'post': post})
+    context.update({'comments': comments})
+
+    if request.method == 'POST':
+        form = CommentForm(request.POST)
+        if form.is_valid():
+
+            comment = form.save(commit=False)
+            comment.commentAuthor = request.user
+
+            now = datetime.now()  
+            currentTime = now.strftime("%H:%M:%S")
+            comment.commentTimePublished = currentTime
+
+            today = date.today()
+            comment.commentDatePublished = today.strftime('Y-m-d')
+
+            comment.commentPost = post
+
+            comment.save()
+            return redirect('full-post', username = post.postAuthor, postSlug = post.postSlug)
+    else:
+        form = CommentForm()
+        context.update({'form': form})
 
     return render(request, 'full-post.html', context)
 
@@ -149,6 +209,9 @@ def editPost(request, username, postSlug):
     context = {}
 
     post = Post.objects.get(postSlug = postSlug)
+    if request.user != post.postAuthor:
+        return redirect('home')
+
     context.update({'post': post})
 
     pets = Pet.objects.filter(petOwner = request.user)
@@ -180,6 +243,47 @@ def editPost(request, username, postSlug):
 def deletePost(request, username, postSlug):
 
     post = Post.objects.get(postSlug = postSlug)
+
+    if request.user != post.postAuthor:
+        return redirect('home')
+        
     post.delete()
 
     return redirect('home')
+
+
+def deleteComment(request, pk):
+
+    comment = Comment.objects.get(id = pk)
+    post = comment.commentPost
+
+    if request.user != comment.commentAuthor:
+        return redirect('home')
+
+    comment.delete()
+
+    return redirect('full-post', username = post.postAuthor, postSlug =  post.postSlug)
+
+
+def followPerson(request, follower, followed):
+
+    followedPersonProfile = CustomUser.objects.get(username = followed)
+    followerPersonRequest = CustomUser.objects.get(username = follower)
+
+    try:
+        Followers.objects.get(followedPerson = followedPersonProfile, followerPerson = followerPersonRequest)
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+    except:
+        Followers.objects.create(followedPerson = followedPersonProfile, followerPerson = followerPersonRequest)
+
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
+
+def unfollowPerson(request, follower, followed):
+
+    followedPersonProfile = CustomUser.objects.get(username = followed)
+    followerPersonRequest = CustomUser.objects.get(username = follower)
+    relation = get_object_or_404(Followers, followedPerson = followedPersonProfile, followerPerson = followerPersonRequest)
+    relation.delete()
+
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
