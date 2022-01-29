@@ -143,17 +143,3 @@ class Comment(models.Model):
     
     class Meta:
         ordering = ['-commentDatePublished']
-
-
-class Followers(models.Model):
-
-    followedPerson = models.ForeignKey(CustomUser, on_delete=models.DO_NOTHING, related_name="Пользователь")
-    followerPerson = models.ForeignKey(CustomUser, on_delete=models.DO_NOTHING, related_name="Подписавшийся")
-
-    class Meta:
-        verbose_name_plural = "Followers"
-
-    
-    def __str__(self):
-        id = str(self.id)
-        return id

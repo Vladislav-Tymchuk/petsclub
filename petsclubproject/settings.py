@@ -40,7 +40,7 @@ INSTALLED_APPS = [
 
     'mainPets',
     'authentication.apps.AuthenticationConfig',
-
+    'relation',
 ]
 
 AUTH_USER_MODEL = 'authentication.CustomUser'

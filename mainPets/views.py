@@ -7,10 +7,11 @@ from authentication.models import CustomUser
 from django.shortcuts import get_object_or_404, redirect, render
 from datetime import datetime
 from datetime import date
+from relation.models import Followers, Like
 from transliterate import slugify
 
 from .forms import CommentForm, PetAddForm, PetEditForm, PostEditForm, PostForm
-from .models import Banner, Comment, Followers, Pet, Post
+from .models import Banner, Comment, Pet, Post
 
 
 def home(request):
@@ -42,7 +43,7 @@ def home(request):
         followers = Followers.objects.filter(followedPerson = request.user)
         context['followersCount'] = followers.count
     except:
-        pass
+        context['followersCount'] = '-'
     
     return render(request, 'home.html', context=context)
 
@@ -136,6 +137,7 @@ def petProfile(request, petId, petName):
 def fullPost(request, username, postSlug):
 
     context = {}
+    context['marker'] = False
 
     post = Post.objects.get(postSlug = postSlug)
     comments = ''
@@ -144,8 +146,21 @@ def fullPost(request, username, postSlug):
     except:
         pass
 
+    try: 
+        likes = Like.objects.filter(likedPost = post.id)
+        likesCount = likes.count
+    except:
+        likesCount = 0
+
+    try:
+        Like.objects.get(likedPerson = request.user)
+        context['marker'] = True
+    except:
+        context['marker'] = False
+
     context.update({'post': post})
     context.update({'comments': comments})
+    context['likesCount'] = likesCount
 
     if request.method == 'POST':
         form = CommentForm(request.POST)
@@ -263,27 +278,3 @@ def deleteComment(request, pk):
     comment.delete()
 
     return redirect('full-post', username = post.postAuthor, postSlug =  post.postSlug)
-
-
-def followPerson(request, follower, followed):
-
-    followedPersonProfile = CustomUser.objects.get(username = followed)
-    followerPersonRequest = CustomUser.objects.get(username = follower)
-
-    try:
-        Followers.objects.get(followedPerson = followedPersonProfile, followerPerson = followerPersonRequest)
-        return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
-    except:
-        Followers.objects.create(followedPerson = followedPersonProfile, followerPerson = followerPersonRequest)
-
-    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
-
-
-def unfollowPerson(request, follower, followed):
-
-    followedPersonProfile = CustomUser.objects.get(username = followed)
-    followerPersonRequest = CustomUser.objects.get(username = follower)
-    relation = get_object_or_404(Followers, followedPerson = followedPersonProfile, followerPerson = followerPersonRequest)
-    relation.delete()
-
-    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
