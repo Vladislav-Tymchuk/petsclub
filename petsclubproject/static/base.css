@@ -1,5 +1,6 @@
 a {
 	text-decoration: none;
+	color: #212121
 }
 
 .error-list li {
@@ -231,14 +232,14 @@ body {
 }
 
 .comment-form textarea {
-	width: 450px;
-	border-color: #512DA8;
+	width: 300px;
+	border: 2px solid #512DA8;
 	background: none;
 }
 
 .comment-form textarea:focus {
-	width: 500px;
-	border-color: #FF9800;
+	width: 350px;
+	border: 2px solid #FF9800;
 }
 
 .comment-form input[type = 'submit'] {

@@ -1,7 +1,7 @@
 from django.db import models
 
 from authentication.models import CustomUser
-from mainPets.models import Post
+from mainPets.models import Comment, Post
 
 class Followers(models.Model):
 
@@ -17,13 +17,28 @@ class Followers(models.Model):
         return id
 
 
-class Like(models.Model):
+class LikePost(models.Model):
 
     likedPost = models.ForeignKey(Post, on_delete=models.CASCADE, related_name="Пост")
     likedPerson = models.ForeignKey(CustomUser, on_delete=models.DO_NOTHING, related_name="Лайкнувший")
 
     class Meta:
-        verbose_name_plural = "Likes"
+        verbose_name_plural = "LikePosts"
+
+    
+    def __str__(self):
+
+        id = str(self.id)
+        return id
+
+
+class LikeComment(models.Model):
+
+    likedComment = models.ForeignKey(Comment, on_delete=models.CASCADE, related_name="Комментарий")
+    likedPerson = models.ForeignKey(CustomUser, on_delete=models.DO_NOTHING, related_name="Лайкнул")
+
+    class Meta:
+        verbose_name_plural = "LikeComments"
 
     
     def __str__(self):

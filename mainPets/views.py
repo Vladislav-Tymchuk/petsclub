@@ -7,7 +7,7 @@ from authentication.models import CustomUser
 from django.shortcuts import get_object_or_404, redirect, render
 from datetime import datetime
 from datetime import date
-from relation.models import Followers, Like
+from relation.models import Followers, LikePost
 from transliterate import slugify
 
 from .forms import CommentForm, PetAddForm, PetEditForm, PostEditForm, PostForm
@@ -138,6 +138,7 @@ def fullPost(request, username, postSlug):
 
     context = {}
     context['marker'] = False
+    context['comments'] = {}
 
     post = Post.objects.get(postSlug = postSlug)
     comments = ''
@@ -147,20 +148,20 @@ def fullPost(request, username, postSlug):
         pass
 
     try: 
-        likes = Like.objects.filter(likedPost = post.id)
-        likesCount = likes.count
+        likesPost = LikePost.objects.filter(likedPost = post.id)
+        likesPostCount = likesPost.count
     except:
-        likesCount = 0
+        likesPostCount = 0
 
     try:
-        Like.objects.get(likedPerson = request.user)
+        LikePost.objects.get(likedPost = post.id, likedPerson = request.user)
         context['marker'] = True
     except:
         context['marker'] = False
 
     context.update({'post': post})
     context.update({'comments': comments})
-    context['likesCount'] = likesCount
+    context['likesPostCount'] = likesPostCount
 
     if request.method == 'POST':
         form = CommentForm(request.POST)

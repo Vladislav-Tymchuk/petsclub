@@ -12,6 +12,7 @@ urlpatterns = [
     path('<str:username>/edit-post/<slug:postSlug>', views.editPost, name='edit-post'),
     path('<str:username>/delete-post/<slug:postSlug>', views.deletePost, name='delete-post'),
     path('comment/<int:pk>/delete/', views.deleteComment, name='delete-comment'),
+    path('weather-forecast/', include('weatherForecast.urls')),
     path('relation/', include('relation.urls')),
     path('authentication/', include('authentication.urls')),
 ]

@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'mainPets',
     'authentication.apps.AuthenticationConfig',
     'relation',
+    'weatherForecast',
 ]
 
 AUTH_USER_MODEL = 'authentication.CustomUser'
