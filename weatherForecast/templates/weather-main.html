@@ -5,14 +5,71 @@
 
 {% block content %}
 
-    {% if not registered %}
-        <div style="background: #212121" class="container mt-4">
-            <div class="row mx-auto justify-content-around">
-                <p>aaaaaaa</p>
+    {% if registered == True %}
+        <div class="container">
+            <div class="row mx-auto">
+                {% if cityAddress %}
+                    <div class="weather mt-5 me-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center text-white overflow-hidden">
+                        <div class="my-3 py-3">
+                            <h2 class="display-5">Прогноз погоды по адресу: <span>{{weatherViewer.weatherAddressCity}}*</span></h2>
+                            <p class="lead">Адрес подобран неверно? Попробуйте указать детальнее (город, улица)
+                                <a href="{% url 'edit-addresses' request.user.username %}"> по ссылке</a></p>
+                        </div>
+                        <div class="bg-light shadow-sm mx-auto col-12" style="display: table; width: 80%; height: 300px; border-radius: 21px 21px 0 0;">
+                            <div class="col-6 weather-detail" style="border-right: 2px #FF9800 solid; display: table-cell;">Погода сегодня
+                                <h3>{{weatherCity.weatherTodayDegree}} <i class="cart-icon material-icons">thermostat</i>
+                                </h3>
+                                <h3>{{weatherCity.weatherTodayDescription}} <i class="cart-icon material-icons">cloud</i>
+                                </h3>
+                                <h3>{{weatherCity.weatherTodayWindSpeed}} м/с <i class="cart-icon material-icons">air</i>
+                                </h3>
+                            </div>
+                            <div class="col- weather-detail" style="display: table-cell;">Погода на завтра
+                                <h3>{{weatherCity.weatherTomorrowDegree}} <i class="cart-icon material-icons">thermostat</i>
+                                </h3>
+                                <h3>{{weatherCity.weatherTomorrowDescription}} <i class="cart-icon material-icons">cloud</i>
+                                </h3>
+                            </div>
+                        </div>
+                    </div> 
+                {% endif %}
+                {% if countryAddress %}
+                    <div class="weather mt-5 me-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center text-white overflow-hidden">
+                        <div class="my-3 py-3">
+                            <h2 class="display-5">Прогноз погоды по адресу: <span>{{weatherViewer.weatherAddressCountry}}*</span></h2>
+                            <p class="lead">Адрес подобран неверно? Попробуйте указать детальнее (город, улица)
+                                <a href="{% url 'edit-addresses' request.user.username %}"> по ссылке</a></p>
+                        </div>
+                        <div class="bg-light shadow-sm mx-auto col-12" style="display: table; width: 80%; height: 300px; border-radius: 21px 21px 0 0;">
+                            <div class="col-6 weather-detail" style="border-right: 2px #FF9800 solid; display: table-cell;">Погода сегодня
+                                <h3>{{weatherCountry.weatherTodayDegree}} <i class="cart-icon material-icons">thermostat</i>
+                                </h3>
+                                <h3>{{weatherCountry.weatherTodayDescription}} <i class="cart-icon material-icons">cloud</i>
+                                </h3>
+                                <h3>{{weatherCountry.weatherTodayWindSpeed}} м/с <i class="cart-icon material-icons">air</i>
+                                </h3>
+                            </div>
+                            <div class="col- weather-detail" style="display: table-cell;">Погода на завтра
+                                <h3>{{weatherCountry.weatherTomorrowDegree}} <i class="cart-icon material-icons">thermostat</i>
+                                </h3>
+                                <h3>{{weatherCountry.weatherTomorrowDescription}} <i class="cart-icon material-icons">cloud</i>
+                                </h3>
+                            </div>
+                        </div>
+                    </div> 
+                {% endif %}
+            </div>
+        </div>  
+    {% else %}
+        <div class="container">
+            <div class="row mx-auto">
+                <div style="background: #212121" class="mt-4">
+                    <div class="row mx-auto justify-content-around">
+                        <p class="text-danger">aaaaaaa</p>
+                    </div>
+                </div>
             </div>
         </div>
-    {% else %}
-
     {% endif %}
 
 {% endblock %}

@@ -1,6 +1,9 @@
 a {
 	text-decoration: none;
-	color: #212121
+}
+
+textarea {
+	resize: none;
 }
 
 .error-list li {
@@ -289,4 +292,111 @@ body {
 .pet-profile {
 	background: #212121;
 	color: #FFFFFF;
+}
+
+
+.address-form {
+    background: #FF9800;
+    width: 470px;
+	padding: 45px;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	text-align: center;
+	border-radius: 10px;
+}
+
+.address-form h1 {
+    color: #212121;
+    text-transform: uppercase;
+}
+
+.address-form input{
+    border: 2px solid #212121;
+    border-radius: 24px;
+	background: none;
+	display: block;
+	margin: 10px auto;
+	text-align: center;
+	padding: 14px 10px;
+	width: 200px;
+	outline: none;
+	transition: 0.25s;
+
+}
+
+.address-form textarea {
+	border: 2px solid #212121;
+    border-radius: 24px;
+	background: none;
+	display: block;
+	margin: 10px auto;
+	text-align: center;
+	padding: 14px 10px;
+	width: 300px;
+	outline: none;
+	transition: 0.25s;
+}
+
+.address-form textarea:focus {
+	width: 370px;
+	border-color: #512DA8;
+}
+
+.address-form a {
+    text-decoration: none;
+    color: #757575;
+}
+
+.address-form a:hover {
+	color: #212121;
+}
+
+.address-form input:focus, .auth-form section:focus {
+	width: 250px;
+	border-color: #512DA8;
+}
+
+.address-form input[type = 'submit'] {
+	border: 0;
+	background: #FF9800;
+	display: block;
+	margin: 20px auto;
+	text-align: center;
+	border: 2px solid #212121;
+	padding: 14px 40px;
+	outline: none;
+	color: #212121;
+	border-radius: 24px;
+	transition: 0.25s;
+	cursor: pointer;
+    width: 250px;
+}
+
+.address-form input[type = 'submit']:hover {
+	background: #D1C4E9;
+    color: #212121;
+}
+
+.weather {
+	background: #673AB7;
+	border-radius: 16px;
+}
+
+.weather a {
+	color: #FF9800;
+}
+
+.weather span {
+	color: #FF9800;
+	font-weight: bold;
+}
+
+.weather h3 {
+	color: #212121;
+}
+
+.weather-detail {
+	color: #212121;
 }
