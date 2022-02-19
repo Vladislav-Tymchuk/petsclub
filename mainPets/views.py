@@ -1,5 +1,4 @@
 from poplib import POP3_SSL_PORT
-import re
 from django.http import HttpResponseRedirect
 
 from django.urls import reverse
@@ -254,6 +253,28 @@ def editPost(request, username, postSlug):
     
     
     return render(request, 'edit-post.html', context)
+
+
+def subscriptionsView(request, username):
+
+    context = {}
+    person = CustomUser.objects.get(id = request.user.id)
+    
+    followedRelations = Followers.objects.filter(followerPerson = person)
+    followedPersons = []
+
+    for followedRelation in followedRelations:
+        followedPersons.append(CustomUser.objects.get(id = followedRelation.followedPerson.id))
+
+    followedPosts = []
+    for followedPerson in followedPersons:
+        posts = Post.objects.filter(postAuthor = followedPerson)
+        for post in posts:
+            followedPosts.append(post)
+    
+    context.update({'followedPosts': followedPosts})
+    context.update({'followedPersons': followedPersons})
+    return render(request, 'subscriptions.html', context)
 
 
 def deletePost(request, username, postSlug):

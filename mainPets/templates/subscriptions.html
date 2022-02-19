@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %} PET CLUB - социальная сеть для владельцев кошек и собак! {% endblock %}
+
+{% block content %}
+
+<div class="container">
+    <div class="row mx-auto justify-content-around">
+        <div class="col-10 col-md-9 col-sm-12 col-lg-9">
+        {% for post in followedPosts %}
+            <div class="mt-3 mb-3" style="background-color: #D1C4E9; border-left: 2px #FF9800 solid;">
+                <div class="mb-3">
+                    <div class="row g-0 mb-5">
+                        <div class="col-md-2">
+                            {% if post.postPhoto %}
+                                <a href=""><img src="{{post.postPhoto.url}}" class="img-fluid rounded-start" alt=""></a><br>
+                            {% endif %}
+                            {% if post.postPet %}
+                                <p><a href="{{post.petProfile}}" style="text-decoration: none;"><span style="color: #673AB7;"><i class="cart-icon material-icons">pets</i>{{post.postPet.name}}</span></a></p>
+                            {% endif %}    
+                            </div>
+                        <div class="col-md-8">
+                            <div class="card-body">
+                                <h2 class="featurette-heading">{{post.postTitle}}</h2>
+                                <p class="card-text" style="color: #212121">{{post.textToPreview}} ... <a style="color: #512DA8;" href="{{post.get_url }}">читать полностью</a></p><br>
+                                <p><a style="text-decoration: none;" href="{{post.authorProfile}}"><span style="color: #673AB7;"><i class="cart-icon material-icons">person_outline</i>{{post.postAuthor}}</span></a>,
+                                    <small style="color: #757575;" class="text-muted">{{post.postDatePublished}} {{post.postTimePublished}}</small> </p>
+                            </div>
+                        </div>
+                    </div>
+                    <hr style="color: #757575;"">
+                </div>
+            </div>          
+        {% endfor %}
+        </div>
+        <div class="col-10 col-md-7 col-sm-12 col-lg-3">
+            {% for person in followedPersons %}
+            <div class="mt-3 mb-3" style="background-color: #D1C4E9;">
+                <div class="mb-3">
+                    <div class="row g-0 mb-5">
+                        <div class="card mb-1" style="background-color: #D1C4E9;">
+                            <div class="card-body">
+                                <div class="d-flex flex-start align-items-center">
+                                    <img class="rounded-circle shadow-1-strong me-3" src="{{person.avatar.url}}"
+                                        alt="avatar" width="60" height="60"/>
+                                    <div>
+                                        <h6 class="fw-bold mb-1" style="color: #212121;"><a style="color: #212121;" href="{% url 'profile' person.username %}">{{person.username}}</a>
+                                        </h6>
+                                        <a style="color: #212121;" class="unfollow-button mt-1 btn btn-outline-light mb-1" href="{% url 'unfollow-person' request.user.username person.username %}">
+                                            <i class="cart-icon material-icons">person_remove</i> Отписаться</a>                             
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>          
+        {% endfor %}
+        </div>
+    </div>
+</div>
+
+{% endblock %}

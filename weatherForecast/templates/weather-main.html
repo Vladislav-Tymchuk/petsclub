@@ -7,11 +7,14 @@
 
     {% if registered == True %}
         <div class="container">
-            <div class="row mx-auto">
+            <div class="row mx-auto mb-5">
+                <a class="mt-3 text-center btn btn-outline-dark" href="{% url 'home' %}">На главную</a>
                 {% if cityAddress %}
                     <div class="weather mt-5 me-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center text-white overflow-hidden">
                         <div class="my-3 py-3">
-                            <h2 class="display-5">Прогноз погоды по адресу: <span>{{weatherViewer.weatherAddressCity}}*</span></h2>
+                            <h2 class="display-5">Прогноз погоды по адресу:
+                                <span>{{weatherViewer.weatherAddressCity}}*</span></h2>
+                            <h6>*{{weatherCity.fullAddress}}</h6>
                             <p class="lead">Адрес подобран неверно? Попробуйте указать детальнее (город, улица)
                                 <a href="{% url 'edit-addresses' request.user.username %}"> по ссылке</a></p>
                         </div>
@@ -36,7 +39,8 @@
                 {% if countryAddress %}
                     <div class="weather mt-5 me-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center text-white overflow-hidden">
                         <div class="my-3 py-3">
-                            <h2 class="display-5">Прогноз погоды по адресу: <span>{{weatherViewer.weatherAddressCountry}}*</span></h2>
+                            <h2 class="display-5">Прогноз погоды по адресу: <span>{{weatherViewer.weatherAddressCountry}}**</span></h2>
+                            <h6>**{{weatherCountry.fullAddress}}</h6>
                             <p class="lead">Адрес подобран неверно? Попробуйте указать детальнее (город, улица)
                                 <a href="{% url 'edit-addresses' request.user.username %}"> по ссылке</a></p>
                         </div>
@@ -59,17 +63,6 @@
                     </div> 
                 {% endif %}
             </div>
-        </div>  
-    {% else %}
-        <div class="container">
-            <div class="row mx-auto">
-                <div style="background: #212121" class="mt-4">
-                    <div class="row mx-auto justify-content-around">
-                        <p class="text-danger">aaaaaaa</p>
-                    </div>
-                </div>
-            </div>
         </div>
     {% endif %}
-
 {% endblock %}

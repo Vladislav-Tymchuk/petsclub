@@ -10,6 +10,7 @@ urlpatterns = [
     path('<str:username>/posts/<slug:postSlug>/', views.fullPost, name='full-post'),
     path('<str:username>/create-post/', views.createPost, name='create-post'),
     path('<str:username>/edit-post/<slug:postSlug>', views.editPost, name='edit-post'),
+    path('<str:username>/subscriptions', views.subscriptionsView, name='subscriptions'),
     path('<str:username>/delete-post/<slug:postSlug>', views.deletePost, name='delete-post'),
     path('comment/<int:pk>/delete/', views.deleteComment, name='delete-comment'),
     path('weather-forecast/', include('weatherForecast.urls')),

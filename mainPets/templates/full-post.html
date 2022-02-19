@@ -16,8 +16,8 @@
                             <img src="{{post.postPhoto.url}}" width="350" height="250" class="mt-3">
                         {% endif %}
                         {% if post.postAuthor == request.user %}
-                            <a class="btn btn-outline-light mb-1" href="{{post.get_url_edit}}"><i class="cart-icon material-icons">mode_edit</i> Редактировать запись</a>
-                            <a class="btn btn-outline-light mb-1" href="{{post.get_url_delete}}"><i class="cart-icon material-icons">delete</i> Удалить запись</a>
+                            <a class="btn btn-outline-light mb-1 unfollow-button" style="color: #212121" href="{{post.get_url_edit}}"><i class="cart-icon material-icons">mode_edit</i> Редактировать запись</a>
+                            <a class="btn btn-outline-light mb-1 unfollow-button" style="color: #212121" href="{{post.get_url_delete}}"><i class="cart-icon material-icons">delete</i> Удалить запись</a>
                         {% endif %}
                         <p style = "white-space:pre-line" class="mt-5">{{post.postText}}</p>
                         {% if not marker %}
@@ -66,11 +66,11 @@
                                     alt="avatar" width="60" height="60"/>
                                 <div>
                                 {% if request.user == comment.commentAuthor %}
-                                    <h6 class="fw-bold mb-1" style="color: #212121;"><a href="{% url 'profile' comment.commentAuthor %}">{{comment.commentAuthor}}</a>
+                                    <h6 class="fw-bold mb-1" style="color: #212121;"><a style="color: #212121;" href="{% url 'profile' comment.commentAuthor %}">{{comment.commentAuthor}}</a>
                                         <a href="{% url 'delete-comment' comment.id %}"><i class="cart-icon material-icons">delete</i></a>
                                     </h6>
                                 {% else %}
-                                    <h6 class="fw-bold mb-1" style="color: #212121;"><a href="{% url 'profile' comment.commentAuthor %}">{{comment.commentAuthor}}</a>                              
+                                    <h6 class="fw-bold mb-1" style="color: #212121;"><a style="color: #212121" href="{% url 'profile' comment.commentAuthor %}">{{comment.commentAuthor}}</a>                              
                                 {% endif %}                              
                                 <p class="text-muted small mb-0">
                                     {{comment.commentTimePublished}} {{comment.commentDatePublished}}

@@ -7,14 +7,14 @@
             <i class="cart-icon material-icons">pets</i>
           </a>
           <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-            <li class="nav-item"><a class="nav-link px-2" style="color: #FF9800; font-weight: bold; text-transform: uppercase;" href="{% url 'weather-forecast' request.user.id %}">Погода</a>
+            <li class="nav-item"><a class="nav-link px-2" style="color: #FF9800; font-weight: bold; text-transform: uppercase;" href="{% url 'weather-forecast' request.user.username %}">Погода</a>
+            </li>
+            <li class="nav-item"><a class="nav-link px-2" style="color: #FF9800; font-weight: bold; text-transform: uppercase;" href="{% url 'subscriptions' request.user.username %}">Подписки</a>
             </li>
           </ul>
         </div>
       </nav>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
+      
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
             {% if request.user.is_authenticated %}
               
