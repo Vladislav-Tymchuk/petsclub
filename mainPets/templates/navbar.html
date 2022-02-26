@@ -7,10 +7,12 @@
             <i class="cart-icon material-icons">pets</i>
           </a>
           <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+            {% if request.user.is_authenticated %}
             <li class="nav-item"><a class="nav-link px-2" style="color: #FF9800; font-weight: bold; text-transform: uppercase;" href="{% url 'weather-forecast' request.user.username %}">Погода</a>
             </li>
-            <li class="nav-item"><a class="nav-link px-2" style="color: #FF9800; font-weight: bold; text-transform: uppercase;" href="{% url 'subscriptions' request.user.username %}">Подписки</a>
+            <li class="nav-item"><a class="nav-link px-2" style="color: #FF9800; font-weight: bold; text-transform: uppercase;" href="{% url 'subscriptions' request.user.username %}">Медиа</a>
             </li>
+            {% endif %}
           </ul>
         </div>
       </nav>

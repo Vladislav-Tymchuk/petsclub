@@ -1,3 +1,4 @@
+from django.http import HttpResponseRedirect
 from django.shortcuts import redirect, render
 import requests
 from geopy.geocoders import Nominatim
@@ -67,15 +68,20 @@ def weatherMain(request, username):
             context['weatherCountry']['fullAddress'] = location.address
 
     if weatherViewer.weatherAddressCity:
-        cityAddress = weatherViewer.weatherAddressCity
-        context['cityAddress'] = True
-        checkWeather('city', cityAddress)
-    
-    if weatherViewer.weatherAddressCity:
-        countryAddress = weatherViewer.weatherAddressCountry
-        context['countryAddress'] = True
-        checkWeather('country', countryAddress)
+        try:
+            cityAddress = weatherViewer.weatherAddressCity
+            context['cityAddress'] = True
+            checkWeather('city', cityAddress)
+        except:
+            pass
 
+    if weatherViewer.weatherAddressCity:
+        try:
+            countryAddress = weatherViewer.weatherAddressCountry
+            context['countryAddress'] = True
+            checkWeather('country', countryAddress)
+        except:
+            pass
     return render(request, 'weather-main.html', context)
 
 

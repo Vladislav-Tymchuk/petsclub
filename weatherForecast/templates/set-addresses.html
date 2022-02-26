@@ -17,7 +17,8 @@
 
                 <input type="submit" value="Сохранить" name="_save">
                 <h6>Мы не просим указывать дом и квартиру, а лишь Ваш примерный адрес</h6>
-                <a href="{% url 'weather-forecast' request.user.username %}">На главную</a>
+                <a href="{% url 'home'  %}">На главную</a>
+                <a href="{% url 'weather-forecast' request.user.username %}">Прогноз погоды</a>
             </form>
         </div>
     </div>

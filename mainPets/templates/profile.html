@@ -29,12 +29,14 @@
                                     <div class="d-flex flex-column col-4"> <span class="rating">Питомцы</span> <span class="number3">{{petsCount}}</span></div>                                           
                                 </div>
                                 <div class="mt-2 profile-buttons">
-                                    {% if not marker %}
-                                        <a class="btn btn-outline-light mb-1" href="{% url 'follow-person' request.user.username person.username %}">
-                                            <i class="cart-icon material-icons">person_add</i> Подписаться</a>
-                                    {% else %}
-                                        <a class="btn btn-outline-light mb-1" href="{% url 'unfollow-person' request.user.username person.username %}">
-                                            <i class="cart-icon material-icons">person_remove</i> Отписаться</a>
+                                    {% if request.user.is_authenticated %}
+                                        {% if not marker %}
+                                            <a class="btn btn-outline-light mb-1" href="{% url 'follow-person' request.user.username person.username %}">
+                                                <i class="cart-icon material-icons">person_add</i> Подписаться</a>
+                                        {% else %}
+                                            <a class="btn btn-outline-light mb-1" href="{% url 'unfollow-person' request.user.username person.username %}">
+                                                <i class="cart-icon material-icons">person_remove</i> Отписаться</a>
+                                        {% endif %}
                                     {% endif %}
                                 </div>
                             </div>

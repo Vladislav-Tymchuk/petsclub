@@ -20,10 +20,12 @@
                             <a class="btn btn-outline-light mb-1 unfollow-button" style="color: #212121" href="{{post.get_url_delete}}"><i class="cart-icon material-icons">delete</i> Удалить запись</a>
                         {% endif %}
                         <p style = "white-space:pre-line" class="mt-5">{{post.postText}}</p>
-                        {% if not marker %}
-                            <a style="color: red;" href="{% url 'like-post' request.user.username post.id %}"><span><i class="cart-icon material-icons">favorite_border</i> {{likesPostCount}}</span></a>
-                        {% else %}
-                            <a style="color: red;" href="{% url 'unlike-post' request.user.username post.id %}"><span><i class="cart-icon material-icons">favorite</i> {{likesPostCount}}</span></a>
+                        {% if request.user.is_authenticated %}
+                            {% if not marker %}
+                                <a style="color: red;" href="{% url 'like-post' request.user.username post.id %}"><span><i class="cart-icon material-icons">favorite_border</i> {{likesPostCount}}</span></a>
+                            {% else %}
+                                <a style="color: red;" href="{% url 'unlike-post' request.user.username post.id %}"><span><i class="cart-icon material-icons">favorite</i> {{likesPostCount}}</span></a>
+                            {% endif %}
                         {% endif %}
                         <p><small style="color: #757575;" class="text-muted">{{post.postDatePublished}} {{post.postTimePublished}}</small></p>
                         <hr style="color: #757575;">

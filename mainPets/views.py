@@ -274,6 +274,14 @@ def subscriptionsView(request, username):
     
     context.update({'followedPosts': followedPosts})
     context.update({'followedPersons': followedPersons})
+
+    followerRelations = Followers.objects.filter(followedPerson = person)
+    followerPersons = []
+
+    for followerRelation in followerRelations:
+        followerPersons.append(CustomUser.objects.get(id = followerRelation.followerPerson.id))
+
+    context.update({'followerPersons': followerPersons})
     return render(request, 'subscriptions.html', context)
 
 
